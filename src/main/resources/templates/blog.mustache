@@ -1,0 +1,28 @@
+{{> header}}
+
+<div class="posts">
+    <h1 class="content-subhead">Recent Posts</h1>
+
+    {{#posts}}
+    <section class="post">
+        <header class="post-header">
+            <!--<img class="post-avatar" alt="Eric Ferraiuolo&#x27;s avatar" height="48" width="48" src="/img/common/ericf-avatar.png">-->
+
+            <h2 class="post-title"><a href="/{{slug}}">{{title}}</a></h2>
+
+            <p class="post-meta">
+                By  <a class="post-author" href="#"><strong>{{author.firstname}}</strong></a>, on <strong>{{addedAt}}</strong>
+            </p>
+        </header>
+
+        <div class="post-description">
+            <p>
+                {{headline}}
+            </p>
+        </div>
+    </section>
+    {{/posts}}
+</div>
+
+
+{{> footer}}
