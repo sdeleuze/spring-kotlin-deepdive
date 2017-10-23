@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.spring.deepdive;
+package io.spring.deepdive
 
-import java.util.Arrays;
-import java.util.function.Function;
+import java.util.Arrays
+import java.util.function.Function
 
-import org.commonmark.ext.autolink.AutolinkExtension;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.ext.autolink.AutolinkExtension
+import org.commonmark.parser.Parser
+import org.commonmark.renderer.html.HtmlRenderer
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service
 
 @Service
-public class MarkdownConverter implements Function<String, String> {
+class MarkdownConverter : Function<String?, String> {
 
-    private Parser parser = Parser.builder().extensions(Arrays.asList(AutolinkExtension.create())).build();
-    private HtmlRenderer renderer = HtmlRenderer.builder().build();
+    private val parser = Parser.builder().extensions(Arrays.asList(AutolinkExtension.create())).build()
+    private val renderer = HtmlRenderer.builder().build()
 
-
-    @Override
-    public String apply(String input) {
-        if (input == null || input.isEmpty()) {
-            return "";
+    override fun apply(input: String?): String {
+        if (input == null || input == "") {
+            return ""
         }
         return renderer.render(parser.parse(input));
     }

@@ -13,13 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.spring.deepdive.repository;
+package io.spring.deepdive.web
 
-import io.spring.deepdive.model.User;
+import io.spring.deepdive.repository.UserRepository
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
-@Repository
-public interface UserRepository extends CrudRepository<User, String> {
+@RestController
+@RequestMapping("/api/user")
+class UserController(private val repository: UserRepository) {
+
+    @GetMapping("/")
+    fun findAll() = repository.findAll()
+
+    @GetMapping("/{login}")
+    fun findOne(@PathVariable login: String) = repository.findOne(login)
+
 }

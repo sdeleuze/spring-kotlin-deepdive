@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.spring.deepdive.repository;
+package io.spring.deepdive.model
 
-import io.spring.deepdive.model.Post;
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface PostRepository extends CrudRepository<Post, String> {
-}
+@Document
+data class User(
+        @Id val login: String,
+        val firstname: String,
+        val lastname: String,
+        val description: String? = null)
