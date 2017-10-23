@@ -1,0 +1,21 @@
+{{> header}}
+
+<h1 class="content-subhead">Recent Posts</h1>
+
+<div class="posts">
+
+    {{#posts}}
+        <section class="post">
+            <header class="post-header">
+                <h2 class="post-title"><a href="/{{slug}}">{{title}}</a></h2>
+                <div class="post-meta">By  <strong>{{author.firstname}}</strong>, on <strong>{{addedAt}}</strong></div>
+            </header>
+            <div class="post-description">
+                {{headline}}
+            </div>
+        </section>
+    {{/posts}}
+</div>
+
+
+{{> footer}}
