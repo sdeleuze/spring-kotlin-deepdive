@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.spring.deepdive.web;
+package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.formatDate
@@ -30,7 +30,7 @@ data class PostDto(
 
 fun Post.toDto(markdownConverter: MarkdownConverter) = PostDto(
         slug,
-        markdownConverter.apply(title),
+        title,
         markdownConverter.apply(headline),
         markdownConverter.apply(content),
         author,

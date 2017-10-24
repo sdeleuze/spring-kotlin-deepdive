@@ -15,20 +15,21 @@
  */
 package io.spring.deepdive.web
 
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.UserRepository
+
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/post")
-class PostApi(private val postRepository: PostRepository) {
+@RequestMapping("/api/user")
+class UserController(private val repository: UserRepository) {
 
     @GetMapping("/")
-    fun findAll() = postRepository.findAll()
+    fun findAll() = repository.findAll()
 
-    @GetMapping("/{slug}")
-    fun findOne(@PathVariable slug: String) = postRepository.findOne(slug)
+    @GetMapping("/{login}")
+    fun findOne(@PathVariable login: String) = repository.findById(login)
 
 }

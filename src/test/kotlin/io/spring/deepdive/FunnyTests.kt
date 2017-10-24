@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.spring.deepdive.web
+package io.spring.deepdive
 
-import io.spring.deepdive.repository.UserRepository
+import org.junit.jupiter.api.Test
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+class FunnyTests {
 
-@RestController
-@RequestMapping("/api/user")
-class UserApi(private val userRepository: UserRepository) {
-
-    @GetMapping("/")
-    fun findAll() = userRepository.findAll()
-
-    @GetMapping("/{login}")
-    fun findOne(@PathVariable login: String) = userRepository.findOne(login)
-
+    @Test
+    fun `Why Spring ❤ Kotlin`() {
+        println("Because I can use emoj in function names \uD83D\uDE09")
+    }
 }
