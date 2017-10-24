@@ -30,6 +30,6 @@ class UserApi(private val userRepository: UserRepository) {
     fun findAll() = userRepository.findAll()
 
     @GetMapping("/{login}")
-    fun findOne(@PathVariable login: String) = userRepository.findOne(login)
+    fun findOne(@PathVariable login: String) = userRepository.findById(login)
 
 }

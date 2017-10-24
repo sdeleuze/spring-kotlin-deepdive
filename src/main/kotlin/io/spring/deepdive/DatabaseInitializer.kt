@@ -43,7 +43,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         val juergen = User("springjuergen", "Juergen", "Hoeller")
         val violeta = User("violetagg", "Violeta", "Georgieva", "All views are my own!")
 
-        userRepository.save(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
+        userRepository.saveAll(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
 
         val reactorTitle = "Reactor Bismuth is out"
         val reactorPost = Post(
@@ -87,6 +87,6 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         )
 
-        postRepository.save(Arrays.asList(reactorPost, spring5Post, springKotlinPost))
+        postRepository.saveAll(Arrays.asList(reactorPost, spring5Post, springKotlinPost))
     }
 }

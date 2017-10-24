@@ -16,35 +16,22 @@
 package io.spring.deepdive
 
 import io.spring.deepdive.model.User
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpMethod
-import org.springframework.test.context.junit4.SpringRunner
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.springframework.web.client.getForObject
 
-@RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserApiTests {
-
-    @Autowired
-    private lateinit var restTemplate: TestRestTemplate
-
+class UserApiTests : AbstractIntegrationTests() {
 
     @Test
     fun `Assert FindAll JSON API is parsed correctly and contains 11 elements`() {
-        val users = restTemplate.exchange("/api/user/", HttpMethod.GET, null, object: ParameterizedTypeReference<List<User>>() {}).body
+        val users = restTemplate.getForObject<List<User>>("/api/user/")
         assertThat(users).hasSize(11)
     }
 
     @Test
-    fun `verify findOne JSON API`() {
-        val user = this.restTemplate.getForObject("/api/user/MkHeck", User::class.java)
+    fun `Verify findOne JSON API`() {
+        val user = restTemplate.getForObject<User>("/api/user/MkHeck")!!
         assertThat(user.login).isEqualTo("MkHeck")
         assertThat(user.firstname).isEqualTo("Mark")
         assertThat(user.lastname).isEqualTo("Heckler")

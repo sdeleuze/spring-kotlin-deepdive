@@ -15,7 +15,7 @@
  */
 package io.spring.deepdive
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FunnyTests {
 

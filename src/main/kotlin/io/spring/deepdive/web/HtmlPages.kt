@@ -22,7 +22,6 @@ import io.spring.deepdive.repository.PostRepository
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.util.Assert
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import kotlin.streams.toList
@@ -41,8 +40,7 @@ class HtmlPages(private val postRepository: PostRepository, private val markdown
 
     @GetMapping("/{slug}")
     fun post(@PathVariable slug: String, model: Model): String {
-        val post = postRepository.findOne(slug)
-        Assert.notNull(post, "Wrong post slug provided")
+        val post = postRepository.findById(slug).orElseThrow { IllegalArgumentException("Wrong post slug provided") }
         model.addAttribute("post", post.toDto(markdownConverter))
         return "post"
     }

@@ -15,20 +15,25 @@
  */
 package io.spring.deepdive.web
 
+import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.repository.PostRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/post")
-class PostApi(private val postRepository: PostRepository) {
+class PostApi(private val postRepository: PostRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
     fun findAll() = postRepository.findAll()
 
     @GetMapping("/{slug}")
-    fun findOne(@PathVariable slug: String) = postRepository.findOne(slug)
+    fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
+        "markdown" -> postRepository.findById(slug).map { it.copy(
+                title = markdownConverter.apply(it.title),
+                headline = markdownConverter.apply(it.headline),
+                content = markdownConverter.apply(it.content)) }
+        null -> postRepository.findById(slug)
+        else -> throw IllegalArgumentException("Only markdown converter is supported")
+    }
 
 }
