@@ -7,14 +7,19 @@ Spring Boot step by step:
  * [Step 2](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step2): Spring Boot 2
  * [Step 3](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step3): Spring WebFlux
  * [Step 4](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step4): Kotlin routing DSL
- * [Step 5](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step5): Kotlin for frontend and multiplatform
  
-## Step 3: Kotlin routing DSL
+See [Spring Kotlin support documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference/languages.html#kotlin) for more details.
+ 
+## Step 4: Kotlin routing DSL
 
 * Kotlin routing DSL is based on WebFlux Java functional API
 * Only available for WebFlux, not MVC
 * Router DSL
 * Handlers
 
-**[Go to step 5: Kotlin for frontend and multiplatform](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step5)**
+**The end!**
+
+If you want to go even further with Kotlin, it can be used for Gradle build via its Kotlin
+DSL and for frontend / multiplatform code, see [spring-kotlin-fullstack](https://github.com/sdeleuze/spring-kotlin-fullstack)
+example project.
 

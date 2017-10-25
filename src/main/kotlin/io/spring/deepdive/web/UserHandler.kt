@@ -16,20 +16,19 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.repository.UserRepository
+import org.springframework.stereotype.Component
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse.*
+import org.springframework.web.reactive.function.server.body
 
-@RestController
-@RequestMapping("/api/user")
+@Component
 class UserHandler(private val repository: UserRepository) {
 
-    @GetMapping("/")
-    fun findAll() = repository.findAll()
+    fun findAll(req: ServerRequest) =
+            ok().body(repository.findAll())
 
-    @GetMapping("/{login}")
-    fun findOne(@PathVariable login: String) = repository.findById(login)
+    fun findOne(req: ServerRequest) =
+            ok().body(repository.findById(req.pathVariable("login")))
 
 }

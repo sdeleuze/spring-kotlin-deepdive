@@ -22,6 +22,7 @@ import io.spring.deepdive.model.PostEvent
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.bodyToFlux
 import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.test.test
@@ -72,9 +73,11 @@ class PostJsonApiTests : AbstractIntegrationTests() {
 
     @Test
     fun `Verify post JSON API and notifications via SSE`() {
-        client.get().uri("/api/post/notifications").retrieve().bodyToFlux<PostEvent>().take(1)
-                .zipWith(client.post().uri("/api/post/").syncBody(Post("foo", "Foo", "foo", "foo", "mark", LocalDateTime.now())).exchange())
-                .map { it.t1 }
+        client.get().uri("/api/post/notifications").accept(MediaType.TEXT_EVENT_STREAM).retrieve().bodyToFlux<PostEvent>()
+                .take(1)
+                .doOnSubscribe {
+                    client.post().uri("/api/post/").syncBody(Post("foo", "Foo", "foo", "foo", "mark", LocalDateTime.now())).exchange().subscribe()
+                }
                 .test()
                 .consumeNextWith {
                     assertThat(it.slug).isEqualTo("foo")

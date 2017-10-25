@@ -17,17 +17,33 @@ package io.spring.deepdive.web
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.MediaType
+import org.springframework.http.MediaType.*
+import org.springframework.web.reactive.function.server.router
 
 
 @Configuration
-class Router(private val htmlHandler: HtmlHandler) {
+class Router(private val htmlHandler: HtmlHandler,
+             private val userHandler: UserHandler,
+             private val postHandler: PostHandler) {
 
     @Bean
-    fun router() = org.springframework.web.reactive.function.server.router {
-        accept(MediaType.TEXT_HTML).nest {
+    fun appRouter() = router {
+        accept(APPLICATION_JSON).nest {
+            "/api/user".nest {
+                GET("/", userHandler::findAll)
+                GET("/{login}", userHandler::findOne)
+            }
+            "/api/post".nest {
+                GET("/", postHandler::findAll)
+                GET("/{slug}", postHandler::findOne)
+                POST("/", postHandler::save)
+                DELETE("/{slug}", postHandler::delete)
+            }
+        }
+        (GET("/api/post/notifications") and accept(TEXT_EVENT_STREAM)).invoke(postHandler::notifications)
+        accept(TEXT_HTML).nest {
             GET("/", htmlHandler::blog)
-            GET("/{slug}", htmlHandler::post)
+            (GET("/{slug}") and !GET("/favicon.ico")).invoke(htmlHandler::post)
         }
     }
 
