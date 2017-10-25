@@ -23,7 +23,7 @@ import org.springframework.web.reactive.function.client.bodyToFlux
 import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.test.test
 
-class UserControllerTests : AbstractIntegrationTests() {
+class UserJsonApiTests : AbstractIntegrationTests() {
 
     @Test
     fun `Assert FindAll JSON API is parsed correctly and contains 11 elements`() {

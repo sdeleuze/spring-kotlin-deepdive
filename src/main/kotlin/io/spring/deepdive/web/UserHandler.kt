@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(private val repository: UserRepository) {
+class UserHandler(private val repository: UserRepository) {
 
     @GetMapping("/")
     fun findAll() = repository.findAll()

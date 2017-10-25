@@ -18,23 +18,23 @@ package io.spring.deepdive.web
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.repository.PostRepository
 import io.spring.deepdive.repository.UserRepository
+import org.springframework.stereotype.Component
 
-import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
 
 import reactor.core.publisher.toMono
 
-@Controller
-class HtmlPages(private val userRepository: UserRepository, private val postRepository: PostRepository, private val markdownConverter: MarkdownConverter) {
+@Component
+class HtmlHandler(private val userRepository: UserRepository, private val postRepository: PostRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
-    fun blog(model: Model): String {
-        val posts = postRepository.findAll().flatMap { it.toDto(userRepository, markdownConverter) }
-        model.addAttribute("title", "Blog")
-        model.addAttribute("posts", posts)
-        return "blog"
+    fun blog(req: ServerRequest) = postRepository.findAll()
+            .flatMap { it.toDto(userRepository, markdownConverter) }
+            .flatMap { ServerResponse.ok().render("blog", mapOf("title" to "Blog", "posts" to it)) }
     }
 
     @GetMapping("/{slug}")

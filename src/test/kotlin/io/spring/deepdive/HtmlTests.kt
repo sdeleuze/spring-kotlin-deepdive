@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.test.test
 
-class HtmlPagesTests : AbstractIntegrationTests() {
+class HtmlTests : AbstractIntegrationTests() {
 
     @Test
     fun `Assert content on blog page`() {
