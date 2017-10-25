@@ -17,13 +17,11 @@ package io.spring.deepdive
 
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.*
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.reactive.function.client.WebClient
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -32,15 +30,12 @@ abstract class AbstractIntegrationTests {
     @LocalServerPort
     var port: Int? = null
 
-    @Autowired
-    private lateinit var builder: RestTemplateBuilder
-
-    protected lateinit var restTemplate: RestTemplate
+    // TODO Migrate to WebTestClient when https://youtrack.jetbrains.com/issue/KT-5464 will be fixed
+    protected lateinit var client: WebClient
 
     @BeforeAll
     fun setup() {
-        // We don't use TestRestTemplate because of Spring Boot issues #10761 and #8062
-        restTemplate = builder.rootUri("http://localhost:$port").build()
+        client = WebClient.create("http://localhost:$port")
     }
 
 }

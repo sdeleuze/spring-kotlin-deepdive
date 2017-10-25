@@ -24,12 +24,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/user")
-class UserApi(private val userRepository: UserRepository) {
+class UserController(private val repository: UserRepository) {
 
     @GetMapping("/")
-    fun findAll() = userRepository.findAll()
+    fun findAll() = repository.findAll()
 
     @GetMapping("/{login}")
-    fun findOne(@PathVariable login: String) = userRepository.findById(login)
+    fun findOne(@PathVariable login: String) = repository.findById(login)
 
 }

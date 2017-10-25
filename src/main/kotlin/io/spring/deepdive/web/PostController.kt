@@ -16,12 +16,19 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
+import io.spring.deepdive.model.Post
+import io.spring.deepdive.repository.PostEventRepository
 import io.spring.deepdive.repository.PostRepository
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/post")
-class PostApi(private val postRepository: PostRepository, private val markdownConverter: MarkdownConverter) {
+class PostController(private val postRepository: PostRepository,
+                     private val postEventRepository: PostEventRepository,
+                     private val markdownConverter: MarkdownConverter) {
+
+    val notifications = postEventRepository.count().flatMapMany { postEventRepository.findWithTailableCursorBy().skip(it) }.share()
 
     @GetMapping("/")
     fun findAll() = postRepository.findAll()
@@ -35,5 +42,14 @@ class PostApi(private val postRepository: PostRepository, private val markdownCo
         null -> postRepository.findById(slug)
         else -> throw IllegalArgumentException("Only markdown converter is supported")
     }
+
+    @PostMapping("/")
+    fun save(@RequestBody post: Post) = postRepository.save(post)
+
+    @DeleteMapping("/{slug}")
+    fun delete(@PathVariable slug: String) = postRepository.deleteById(slug)
+
+    @GetMapping("/notifications", produces = arrayOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+    fun notifications() = notifications
 
 }

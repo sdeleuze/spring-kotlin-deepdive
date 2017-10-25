@@ -19,23 +19,30 @@ import io.spring.deepdive.model.User
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.web.client.getForObject
+import org.springframework.web.reactive.function.client.bodyToFlux
+import org.springframework.web.reactive.function.client.bodyToMono
+import reactor.test.test
 
-class UserApiTests : AbstractIntegrationTests() {
+class UserJsonApiTests : AbstractIntegrationTests() {
 
     @Test
     fun `Assert FindAll JSON API is parsed correctly and contains 11 elements`() {
-        val users = restTemplate.getForObject<List<User>>("/api/user/")
-        assertThat(users).hasSize(11)
+        client.get().uri("/api/user/").retrieve().bodyToFlux<User>()
+                .test()
+                .expectNextCount(11)
+                .verifyComplete()
     }
 
     @Test
     fun `Verify findOne JSON API`() {
-        val user = restTemplate.getForObject<User>("/api/user/MkHeck")!!
-        assertThat(user.login).isEqualTo("MkHeck")
-        assertThat(user.firstname).isEqualTo("Mark")
-        assertThat(user.lastname).isEqualTo("Heckler")
-        assertThat(user.description).startsWith("Spring Developer Advocate")
+        client.get().uri("/api/user/MkHeck").retrieve().bodyToMono<User>()
+                .test()
+                .consumeNextWith {
+                    assertThat(it.login).isEqualTo("MkHeck")
+                    assertThat(it.firstname).isEqualTo("Mark")
+                    assertThat(it.lastname).isEqualTo("Heckler")
+                    assertThat(it.description).startsWith("Spring Developer Advocate")
+                }.verifyComplete()
     }
 
 }

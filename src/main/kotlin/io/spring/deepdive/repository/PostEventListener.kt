@@ -16,16 +16,16 @@
 package io.spring.deepdive.repository
 
 import io.spring.deepdive.model.Post
-import org.springframework.data.mongodb.repository.Tailable
+import io.spring.deepdive.model.PostEvent
+import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener
+import org.springframework.data.mongodb.core.mapping.event.AfterSaveEvent
+import org.springframework.stereotype.Component
 
-import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import org.springframework.stereotype.Repository
-import reactor.core.publisher.Flux
+@Component
+class PostEventListener(private val postEventRepository: PostEventRepository) : AbstractMongoEventListener<Post>() {
 
-@Repository
-interface PostRepository : ReactiveCrudRepository<Post, String> {
-
-    @Tailable
-    fun findWithTailableCursorBy(): Flux<Post>
+    override fun onAfterSave(event: AfterSaveEvent<Post>) {
+        postEventRepository.save(PostEvent(event.source.slug, event.source.title)).block()
+    }
 
 }

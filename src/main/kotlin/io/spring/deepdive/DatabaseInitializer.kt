@@ -20,17 +20,26 @@ import java.time.LocalDateTime
 import java.util.Arrays
 
 import io.spring.deepdive.model.Post
+import io.spring.deepdive.model.PostEvent
 import io.spring.deepdive.model.User
 import io.spring.deepdive.repository.PostRepository
 import io.spring.deepdive.repository.UserRepository
 
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import org.springframework.data.mongodb.core.CollectionOptions
+import org.springframework.data.mongodb.core.MongoOperations
+
 
 @Component
-class DatabaseInitializer(private val userRepository: UserRepository, private val postRepository: PostRepository) : CommandLineRunner {
+class DatabaseInitializer(
+        private val ops: MongoOperations,
+        private val userRepository: UserRepository,
+        private val postRepository: PostRepository) : CommandLineRunner {
 
     override fun run(vararg args: String) {
+        ops.createCollection(PostEvent::class.java, CollectionOptions.empty().capped().size(10000))
+
         val brian = User("bclozel", "Brian", "Clozel", "Spring Framework & Spring Boot @pivotal — @LaCordeeLyon coworker")
         val mark = User("MkHeck","Mark", "Heckler", "Spring Developer Advocate @Pivotal. Computer scientist+MBA, inglés y español, @Java_Champions. Pragmatic optimist. #Spring #Reactive #Microservices #IoT #Cloud")
         val arjen = User("poutsma", "Arjen", "Poutsma")
@@ -43,7 +52,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         val juergen = User("springjuergen", "Juergen", "Hoeller")
         val violeta = User("violetagg", "Violeta", "Georgieva", "All views are my own!")
 
-        userRepository.saveAll(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
+        userRepository.saveAll(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta)).blockLast()
 
         val reactorTitle = "Reactor Bismuth is out"
         val reactorPost = Post(
@@ -53,7 +62,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                     |`reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** \uD83C\uDF89""".trimMargin(),
                 """With the release of [Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)
                     |now just happening, you can imagine this is a giant step for Project Reactor :)""".trimMargin(),
-                simon,
+                "simonbasle",
                 LocalDateTime.of(2017, 9, 28, 12, 0)
         )
 
@@ -69,7 +78,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                     |as well as comprehensive integration with Reactor 3.1, JUnit 5, and the Kotlin language. On top of that all, Spring Framework 5 comes with
                     |many functional API variants and introduces a dedicated reactive web framework called Spring WebFlux, next to a revised version of our
                     |Servlet-based web framework Spring MVC.""".trimMargin(),
-                juergen,
+                "springjuergen",
                 LocalDateTime.of(2017, 9, 28, 11, 30)
         )
 
@@ -83,10 +92,9 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                     |with libraries written in Java. But there are ways to go even further and allow writing fully idiomatic Kotlin code when developing your next
                     |Spring application. In addition to Spring Framework support for Java 8 that Kotlin applications can leverage like functional web or bean registration APIs,
                     |there are additional Kotlin dedicated features that should allow you to reach a new level of productivity.""".trimMargin(),
-                seb,
+                "sdeleuze",
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         )
-
-        postRepository.saveAll(Arrays.asList(reactorPost, spring5Post, springKotlinPost))
+        postRepository.saveAll(Arrays.asList(reactorPost, spring5Post, springKotlinPost)).blockLast()
     }
 }

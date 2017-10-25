@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.spring.deepdive.web;
+package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.formatDate
 import io.spring.deepdive.model.Post
 import io.spring.deepdive.model.User
+import io.spring.deepdive.repository.UserRepository
 
 data class PostDto(
         val slug: String,
@@ -28,11 +29,13 @@ data class PostDto(
         val author: User,
         val addedAt: String)
 
-fun Post.toDto(markdownConverter: MarkdownConverter) = PostDto(
-        slug,
-        markdownConverter.apply(title),
-        markdownConverter.apply(headline),
-        markdownConverter.apply(content),
-        author,
-        addedAt.formatDate()
-        )
+fun Post.toDto(userRepository: UserRepository, markdownConverter: MarkdownConverter) = userRepository.findById(author).map {
+    PostDto(
+            slug,
+            title,
+            markdownConverter.apply(headline),
+            markdownConverter.apply(content),
+            it,
+            addedAt.formatDate()
+    )
+}
