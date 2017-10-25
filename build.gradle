@@ -12,7 +12,6 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-		classpath("io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE")
 		classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
 	}
 }
@@ -49,8 +48,8 @@ dependencies {
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
 	compile("org.springframework.boot:spring-boot-starter-actuator")
-	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+	compile("org.springframework.boot:spring-boot-starter-webflux")
 	compile("org.springframework.boot:spring-boot-starter-mustache")
 	compile("com.atlassian.commonmark:commonmark:0.10.0")
 	compile("com.atlassian.commonmark:commonmark-ext-autolink:0.10.0")
@@ -60,5 +59,6 @@ dependencies {
 		exclude module: "junit"
 	}
 	testCompile("org.junit.jupiter:junit-jupiter-api")
+	testCompile("io.projectreactor:reactor-test")
 	testRuntime("org.junit.jupiter:junit-jupiter-engine")
 }
