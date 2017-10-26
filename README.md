@@ -19,6 +19,6 @@ See [Spring Kotlin support documentation](https://docs.spring.io/spring/docs/cur
 * Reminders:
 	* No need for annotating constructor when single constructor for autowiring it (as of Spring 4.3), show 2 syntaxes
 	* `@RequestMapping` aliases: `@GetMapping`, `@PostMapping`, etc.
-* Reload via CTRL + F9 in IDEA
+* Reload via CTRL + F9 in IDEA (CMD + SHIFT + F9 on Mac)
 
 **[Go to step 1: Java to Kotlin](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step1)**
