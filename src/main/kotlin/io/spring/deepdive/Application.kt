@@ -1,6 +1,6 @@
 package io.spring.deepdive
 
-import com.samskivert.mustache.Mustache
+import com.samskivert.mustache.Mustache.*
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean
 class Application {
 
     @Bean
-    fun mustacheCompiler(templateLoader: Mustache.TemplateLoader) =
-            Mustache.compiler().escapeHTML(false).withLoader(templateLoader)
+    fun mustacheCompiler(loader: TemplateLoader) =
+            compiler().escapeHTML(false).withLoader(loader)
 
 }
 
