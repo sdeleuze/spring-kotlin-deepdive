@@ -18,9 +18,11 @@ Code:
 * Show how to configure return type inference hints
 * Short syntax for declaring properties and initializing them from the primary constructor instead of super verbose mostly auto-generated POJO
 * [Data classes](https://kotlinlang.org/docs/reference/data-classes.html)
+* [Data classes](https://kotlinlang.org/docs/reference/data-classes.html)
 * Syntax help using naturally immutable classes
 * `:` instead of `extends`
 * No need for `{ }` for empty classes / interfaces
+* Optional parameter default value
 * `public` by the default
 * `fun` to declare functions
 * Better lambdas: `{ }` last parameter notation, lambda without collect, `it` default parameter

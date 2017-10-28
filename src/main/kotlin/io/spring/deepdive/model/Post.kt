@@ -13,4 +13,4 @@ data class Post(
     val headline: String,
     val content: String,
     @DBRef val author: User,
-    val addedAt: LocalDateTime)
+    val addedAt: LocalDateTime = LocalDateTime.now())
