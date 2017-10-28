@@ -17,6 +17,7 @@ See [Spring Kotlin support documentation](https://docs.spring.io/spring/docs/cur
 * Spring Boot 2
 	* `jackson-module-kotlin` and `jackson-datatype-jsr310` provided by default with Jackson starter
 	* Mustache suffix is already `.mustache` by default
+	* `runApplication<FooApplication>(*args)` instead of `SpringApplication.run(Application::class.java, *args)`
 * Null safety
 * `@RequestParam` on nullable parameter
 * Extensions
