@@ -22,6 +22,7 @@ import io.spring.deepdive.repository.PostRepository
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import kotlin.streams.toList
@@ -33,15 +34,15 @@ class HtmlController(private val repository: PostRepository, private val markdow
     fun blog(model: Model): String {
         val posts = repository.findAll()
         val postDtos = StreamSupport.stream(posts.spliterator(), false).map { it.toDto(markdownConverter) }.toList()
-        model.addAttribute("title", "Blog")
-        model.addAttribute("posts", postDtos)
+        model["title"] = "Blog"
+        model["posts"] = postDtos
         return "blog"
     }
 
     @GetMapping("/{slug}")
     fun post(@PathVariable slug: String, model: Model): String {
         val post = repository.findById(slug).orElseThrow { IllegalArgumentException("Wrong post slug provided") }
-        model.addAttribute("post", post.toDto(markdownConverter))
+        model["post"] = post.toDto(markdownConverter)
         return "post"
     }
 

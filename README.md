@@ -21,6 +21,8 @@ See [Spring Kotlin support documentation](https://docs.spring.io/spring/docs/cur
 * Null safety
 * `@RequestParam` on nullable parameter
 * Extensions
+	* Reified type parameters for `RestOperations`
+	* Array like syntax for ` Model`
 * JUnit 5 + `@BeforeAll`/ `@AfterAll`
 
 **[Go to step 3: Spring WebFlux](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step3)**
