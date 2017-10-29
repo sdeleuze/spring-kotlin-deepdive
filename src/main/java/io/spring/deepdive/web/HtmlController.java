@@ -41,7 +41,7 @@ public class HtmlController {
         this.markdownConverter = markdownConverter;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping("/")
     public String blog(Model model) {
         Iterable<Post> posts = postRepository.findAll();
         Iterable<PostDto> postDtos = StreamSupport.stream(posts.spliterator(), false).map(post -> new PostDto(post, markdownConverter)).collect(Collectors.toList());
