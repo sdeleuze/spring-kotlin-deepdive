@@ -15,7 +15,7 @@ See [Spring Kotlin support documentation](https://docs.spring.io/spring/docs/cur
 * Spring Data Kay
 	* No need for `kotlin-noarg` plugin since it supports natively Kotlin immutable classes
 * Spring Boot 2
-	* `jackson-module-kotlin` and `jackson-datatype-jsr310` provided by default with Jackson starter
+	* `jackson-module-kotlin` and `jackson-datatype-jsr310` provided by default with Spring Boot Web starter
 	* Mustache suffix is already `.mustache` by default
 	* `runApplication<FooApplication>(*args)` instead of `SpringApplication.run(Application::class.java, *args)`
 * Null safety
