@@ -20,14 +20,11 @@ import io.spring.deepdive.Utils;
 import io.spring.deepdive.model.Post;
 import io.spring.deepdive.model.User;
 
-
 class PostDto {
 
     private final String slug;
 
     private final String title;
-
-    private final String addedAt;
 
     private final String headline;
 
@@ -35,14 +32,16 @@ class PostDto {
 
     private final User author;
 
+    private final String addedAt;
+
 
     public PostDto(Post post, MarkdownConverter markdownConverter) {
         this.slug = post.getSlug();
         this.title = post.getTitle();
-        this.addedAt = Utils.formatToEnglish(post.getAddedAt());
         this.headline = markdownConverter.apply(post.getHeadline());
         this.content = markdownConverter.apply(post.getContent());
         this.author = post.getAuthor();
+        this.addedAt = Utils.formatToEnglish(post.getAddedAt());
     }
 
     public String getSlug() {
@@ -53,20 +52,20 @@ class PostDto {
         return title;
     }
 
-    public String getAddedAt() {
-        return addedAt;
-    }
-
-    public String getHeadline() {
-        return headline;
-    }
-
     public String getContent() {
         return content;
     }
 
     public User getAuthor() {
         return author;
+    }
+
+    public String getAddedAt() {
+        return addedAt;
+    }
+
+    public String getHeadline() {
+        return headline;
     }
 
 }

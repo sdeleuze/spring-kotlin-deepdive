@@ -14,14 +14,14 @@ public class Post {
 
     private String title;
 
-    private LocalDateTime addedAt;
-
     private String headline;
 
     private String content;
 
     @DBRef
     private User author;
+
+    private LocalDateTime addedAt;
 
 
     public Post() {
@@ -34,10 +34,10 @@ public class Post {
     public Post(String slug, String title, String headline, String content, User author, LocalDateTime addedAt) {
         this.slug = slug;
         this.title = title;
-        this.addedAt = addedAt;
         this.headline = headline;
         this.content = content;
         this.author = author;
+        this.addedAt = addedAt;
     }
 
     public String getSlug() {
@@ -60,14 +60,6 @@ public class Post {
         return addedAt;
     }
 
-    public void setAddedAt(LocalDateTime addedAt) {
-        this.addedAt = addedAt;
-    }
-
-    public String getHeadline() {
-        return headline;
-    }
-
     public void setHeadline(String headline) {
         this.headline = headline;
     }
@@ -88,6 +80,14 @@ public class Post {
         this.author = author;
     }
 
+    public void setAddedAt(LocalDateTime addedAt) {
+        this.addedAt = addedAt;
+    }
+
+    public String getHeadline() {
+        return headline;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,23 +97,23 @@ public class Post {
 
         if (slug != null ? !slug.equals(post.slug) : post.slug != null) return false;
         if (title != null ? !title.equals(post.title) : post.title != null) return false;
-        if (addedAt != null ? !addedAt.equals(post.addedAt) : post.addedAt != null)
-            return false;
         if (headline != null ? !headline.equals(post.headline) : post.headline != null)
             return false;
         if (content != null ? !content.equals(post.content) : post.content != null)
             return false;
-        return author != null ? author.equals(post.author) : post.author == null;
+        if (author != null ? !author.equals(post.author) : post.author != null)
+            return false;
+        return addedAt != null ? addedAt.equals(post.addedAt) : post.addedAt == null;
     }
 
     @Override
     public int hashCode() {
         int result = slug != null ? slug.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (addedAt != null ? addedAt.hashCode() : 0);
         result = 31 * result + (headline != null ? headline.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (addedAt != null ? addedAt.hashCode() : 0);
         return result;
     }
 
@@ -122,10 +122,10 @@ public class Post {
         return "Post{" +
                 "slug='" + slug + '\'' +
                 ", title='" + title + '\'' +
-                ", addedAt=" + addedAt +
                 ", headline='" + headline + '\'' +
                 ", content='" + content + '\'' +
                 ", author=" + author +
+                ", addedAt=" + addedAt +
                 '}';
     }
 }

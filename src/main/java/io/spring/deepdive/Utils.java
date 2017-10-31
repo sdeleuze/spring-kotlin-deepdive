@@ -15,7 +15,6 @@
  */
 package io.spring.deepdive;
 
-import java.text.Normalizer;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
@@ -39,17 +38,9 @@ public abstract class Utils {
             .toFormatter(Locale.ENGLISH);
 
     public static String slugify(String text) {
-        return String.join("-", stripAccents(text.toLowerCase())
-                .replaceAll("\n", " ")
-                .replaceAll("[^a-z\\d\\s]", " ")
-                .split(" "))
-                .replaceAll("-+", "-");
-    }
-
-    public static String stripAccents(String text) {
-        return Normalizer
-                .normalize(text, Normalizer.Form.NFD)
-                .replace("\\p{InCombiningDiacriticalMarks}+", "");
+        return String.join("-",
+                text.toLowerCase().replaceAll("[^a-z\\d\\s]", " ").split(" ")
+        );
     }
 
     public static String formatToEnglish(TemporalAccessor temporal) {
