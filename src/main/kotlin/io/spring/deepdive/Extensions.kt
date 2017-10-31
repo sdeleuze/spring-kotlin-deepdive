@@ -15,28 +15,19 @@
  */
 package io.spring.deepdive
 
-import java.text.Normalizer
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatterBuilder
 import java.time.temporal.ChronoField
 import java.util.Locale
-import java.util.stream.Collectors
-import java.util.stream.IntStream
-
 
 fun LocalDateTime.formatDate() = this.format(englishDateFormatter)
 
 fun String.slugify() = toLowerCase()
-        .stripAccents()
-        .replace("\n", " ")
         .replace("[^a-z\\d\\s]".toRegex(), " ")
         .split(" ")
         .joinToString("-")
-        .replace("-+".toRegex(), "-")   // Avoid multiple consecutive "--"
 
-
-private val daysLookup: kotlin.collections.Map<Long, String> =
-        IntStream.rangeClosed(1, 31).boxed().collect(Collectors.toMap(Int::toLong, ::getOrdinal))
+private val daysLookup = (1..31).associate { it.toLong() to getOrdinal(it) }
 
 private val englishDateFormatter = DateTimeFormatterBuilder()
         .appendPattern("MMMM")
@@ -53,8 +44,3 @@ private fun getOrdinal(n: Int) = when {
     n % 10 == 3 -> "${n}rd"
     else -> "${n}th"
 }
-
-private fun String.stripAccents() = Normalizer
-        .normalize(this, Normalizer.Form.NFD)
-        .replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
-
