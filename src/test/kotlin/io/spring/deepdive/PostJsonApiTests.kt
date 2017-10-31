@@ -55,7 +55,7 @@ class PostJsonApiTests : AbstractIntegrationTests() {
         client.get().uri("/api/post/reactor-bismuth-is-out?converter=markdown").retrieve().bodyToMono<Post>()
                 .test()
                 .consumeNextWith {
-                    assertThat(it.title).startsWith("<p>Reactor Bismuth is out")
+                    assertThat(it.title).startsWith("Reactor Bismuth is out")
                     assertThat(it.headline).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>")
                     assertThat(it.content).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">")
                     assertThat(it.addedAt).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 0))

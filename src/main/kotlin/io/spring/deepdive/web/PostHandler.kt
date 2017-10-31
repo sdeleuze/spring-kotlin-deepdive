@@ -43,7 +43,6 @@ class PostHandler(private val postRepository: PostRepository,
                         if (it == "markdown")
                             postRepository.findById(req.pathVariable("slug")).map {
                                 it.copy(
-                                        title = markdownConverter.invoke(it.title),
                                         headline = markdownConverter.invoke(it.headline),
                                         content = markdownConverter.invoke(it.content))
                             }
