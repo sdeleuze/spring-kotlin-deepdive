@@ -16,7 +16,6 @@
 package io.spring.deepdive
 
 import java.util.Arrays
-import java.util.function.Function
 
 import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.parser.Parser
@@ -25,15 +24,15 @@ import org.commonmark.renderer.html.HtmlRenderer
 import org.springframework.stereotype.Service
 
 @Service
-class MarkdownConverter : Function<String?, String> {
+class MarkdownConverter : (String?) -> String {
 
     private val parser = Parser.builder().extensions(Arrays.asList(AutolinkExtension.create())).build()
     private val renderer = HtmlRenderer.builder().build()
 
-    override fun apply(input: String?): String {
+    override fun invoke(input: String?): String {
         if (input == null || input == "") {
             return ""
         }
-        return renderer.render(parser.parse(input));
+        return renderer.render(parser.parse(input))
     }
 }

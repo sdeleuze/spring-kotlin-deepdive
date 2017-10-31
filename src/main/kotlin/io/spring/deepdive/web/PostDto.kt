@@ -31,8 +31,8 @@ data class PostDto(
 fun Post.toDto(markdownConverter: MarkdownConverter) = PostDto(
         slug,
         title,
-        markdownConverter.apply(headline),
-        markdownConverter.apply(content),
+        markdownConverter.invoke(headline),
+        markdownConverter.invoke(content),
         author,
         addedAt.formatDate()
         )

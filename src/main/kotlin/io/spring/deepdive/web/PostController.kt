@@ -29,9 +29,9 @@ class PostController(private val repository: PostRepository, private val markdow
     @GetMapping("/{slug}")
     fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
         "markdown" -> repository.findById(slug).map { it.copy(
-                title = markdownConverter.apply(it.title),
-                headline = markdownConverter.apply(it.headline),
-                content = markdownConverter.apply(it.content)) }
+                title = markdownConverter.invoke(it.title),
+                headline = markdownConverter.invoke(it.headline),
+                content = markdownConverter.invoke(it.content)) }
         null -> repository.findById(slug)
         else -> throw IllegalArgumentException("Only markdown converter is supported")
     }
