@@ -33,8 +33,8 @@ fun Post.toDto(userRepository: UserRepository, markdownConverter: MarkdownConver
     PostDto(
             slug,
             title,
-            markdownConverter.apply(headline),
-            markdownConverter.apply(content),
+            markdownConverter.invoke(headline),
+            markdownConverter.invoke(content),
             it,
             addedAt.formatDate()
     )

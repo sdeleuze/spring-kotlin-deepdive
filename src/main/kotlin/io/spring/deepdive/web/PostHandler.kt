@@ -43,9 +43,9 @@ class PostHandler(private val postRepository: PostRepository,
                         if (it == "markdown")
                             postRepository.findById(req.pathVariable("slug")).map {
                                 it.copy(
-                                        title = markdownConverter.apply(it.title),
-                                        headline = markdownConverter.apply(it.headline),
-                                        content = markdownConverter.apply(it.content))
+                                        title = markdownConverter.invoke(it.title),
+                                        headline = markdownConverter.invoke(it.headline),
+                                        content = markdownConverter.invoke(it.content))
                             }
                         else IllegalArgumentException("Only markdown converter is supported").toMono() }
                     .orElse(postRepository.findById(req.pathVariable("slug"))))
