@@ -15,8 +15,6 @@
  */
 package io.spring.deepdive.web
 
-import java.util.stream.StreamSupport
-
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.repository.PostRepository
 
@@ -25,17 +23,15 @@ import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import kotlin.streams.toList
 
 @Controller
 class HtmlController(private val repository: PostRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
     fun blog(model: Model): String {
-        val posts = repository.findAll()
-        val postDtos = StreamSupport.stream(posts.spliterator(), false).map { it.toDto(markdownConverter) }.toList()
+        val posts = repository.findAll().map { it.toDto(markdownConverter) }
         model["title"] = "Blog"
-        model["posts"] = postDtos
+        model["posts"] = posts
         return "blog"
     }
 
