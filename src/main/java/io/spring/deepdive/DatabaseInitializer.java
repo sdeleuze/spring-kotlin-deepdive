@@ -63,7 +63,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 "It is my great pleasure to announce the GA release of **Reactor Bismuth**, which notably encompasses `reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** \uD83C\uDF89",
                 "With the release of [Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga) now just happening, you can imagine this is a giant step for Project Reactor :)\n",
                 simon,
-                LocalDateTime.of(2017, 9, 28, 12, 00)
+                LocalDateTime.of(2017, 9, 28, 12, 0)
         );
 
         String springTitle = "Spring Framework 5.0 goes GA";
