@@ -33,6 +33,6 @@ class MarkdownConverter : (String?) -> String {
         if (input == null || input == "") {
             return ""
         }
-        return renderer.render(parser.parse(input));
+        return renderer.render(parser.parse(input))
     }
 }

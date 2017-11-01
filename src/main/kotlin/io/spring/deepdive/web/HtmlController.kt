@@ -15,8 +15,6 @@
  */
 package io.spring.deepdive.web
 
-import java.util.stream.StreamSupport
-
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.repository.PostRepository
 
