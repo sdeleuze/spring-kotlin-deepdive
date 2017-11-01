@@ -25,17 +25,15 @@ import org.springframework.ui.Model
 import org.springframework.util.Assert
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import kotlin.streams.toList
 
 @Controller
 class HtmlController(private val repository: PostRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
     fun blog(model: Model): String {
-        val posts = repository.findAll()
-        val postDtos = StreamSupport.stream(posts.spliterator(), false).map { it.toDto(markdownConverter) }.toList()
+        val posts = repository.findAll().map { it.toDto(markdownConverter) }
         model.addAttribute("title", "Blog")
-        model.addAttribute("posts", postDtos)
+        model.addAttribute("posts", posts)
         return "blog"
     }
 
