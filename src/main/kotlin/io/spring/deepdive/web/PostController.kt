@@ -36,7 +36,6 @@ class PostController(private val postRepository: PostRepository,
     @GetMapping("/{slug}")
     fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
         "markdown" -> postRepository.findById(slug).map { it.copy(
-                title = markdownConverter.invoke(it.title),
                 headline = markdownConverter.invoke(it.headline),
                 content = markdownConverter.invoke(it.content)) }
         null -> postRepository.findById(slug)
