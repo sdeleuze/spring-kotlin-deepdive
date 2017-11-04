@@ -48,7 +48,6 @@ public class PostController {
         Post post = postRepository.findOne(slug);
         if (converter != null) {
             if (converter.equals("markdown")) {
-                post.setTitle(markdownConverter.apply(post.getTitle()));
                 post.setHeadline(markdownConverter.apply(post.getHeadline()));
                 post.setContent(markdownConverter.apply(post.getContent()));
 

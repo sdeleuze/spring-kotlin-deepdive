@@ -49,7 +49,7 @@ public class PostJsonApiTests extends AbstractIntegrationTests {
     @Test
     public void verifyFindOneJsonApiWithMarkdownConverter() {
         Post post = restTemplate.getForObject("/api/post/reactor-bismuth-is-out?converter=markdown", Post.class);
-        assertThat(post.getTitle()).startsWith("<p>Reactor Bismuth is out");
+        assertThat(post.getTitle()).startsWith("Reactor Bismuth is out");
         assertThat(post.getHeadline()).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>");
         assertThat(post.getContent()).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">");
         assertThat(post.getAddedAt()).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 00));
