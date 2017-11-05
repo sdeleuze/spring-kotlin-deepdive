@@ -1,8 +1,8 @@
-if (Notification.permission === "granted") {
+//if (Notification.permission === "granted") {
     Notification.requestPermission().then(function(result) {
         console.log(result);
     });
-}
+//}
 
 let eventSource = new EventSource("/api/post/notifications");
 eventSource.addEventListener("message", function(e) {
