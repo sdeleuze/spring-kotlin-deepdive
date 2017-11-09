@@ -21,13 +21,23 @@ import io.spring.deepdive.model.Post
 import io.spring.deepdive.model.PostEvent
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.MediaType.*
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToFlux
 import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.test.test
 
-class PostJsonApiTests : AbstractIntegrationTests() {
+@ExtendWith(SpringExtension::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class PostJsonApiTests(@LocalServerPort port: Int) {
+
+    // TODO Migrate to WebTestClient when https://youtrack.jetbrains.com/issue/KT-5464 will be fixed
+    protected val client = WebClient.create("http://localhost:$port")
 
     @Test
     fun `Assert findAll JSON API is parsed correctly and contains 3 elements`() {
