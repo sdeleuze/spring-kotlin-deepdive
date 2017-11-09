@@ -20,11 +20,22 @@ import java.time.LocalDateTime
 import io.spring.deepdive.model.Post
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.client.HttpServerErrorException
 
 import org.springframework.web.client.getForObject
 
-class PostJsonApiTests : AbstractIntegrationTests() {
+@ExtendWith(SpringExtension::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class PostJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTemplateBuilder) {
+
+    // We don't use TestRestTemplate because of Spring Boot issues #10761 and #8062
+    private val restTemplate = builder.rootUri("http://localhost:$port").build()
 
     @Test
     fun `Assert findAll JSON API is parsed correctly and contains 3 elements`() {
