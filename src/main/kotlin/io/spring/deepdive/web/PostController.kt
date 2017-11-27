@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.*
 class PostController(private val repository: PostRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
-    fun findAll() = repository.findAll()
+    suspend fun findAll() = repository.findAll()
 
     @GetMapping("/{slug}")
-    fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
-        "markdown" -> repository.findById(slug).map { it.copy(
+    suspend fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
+        "markdown" -> repository.findById(slug)!!.let { it.copy(
                 headline = markdownConverter.invoke(it.headline),
                 content = markdownConverter.invoke(it.content)) }
         null -> repository.findById(slug)

@@ -18,34 +18,33 @@ package io.spring.deepdive
 import java.time.LocalDateTime
 
 import io.spring.deepdive.model.Post
+import kotlinx.coroutines.experimental.runBlocking
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.web.client.HttpServerErrorException
-
-import org.springframework.web.client.getForObject
+import org.springframework.web.coroutine.function.client.body
+import org.springframework.web.coroutine.function.client.DefaultCoroutineWebClient
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PostJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTemplateBuilder) {
+class PostJsonApiTests(@LocalServerPort val port: Int) {
 
-    // We don't use TestRestTemplate because of Spring Boot issues #10761 and #8062
-    private val restTemplate = builder.rootUri("http://localhost:$port").build()
+    private val client =  DefaultCoroutineWebClient(WebClient.create("http://localhost:$port"))
 
     @Test
-    fun `Assert findAll JSON API is parsed correctly and contains 3 elements`() {
-        val posts = restTemplate.getForObject<List<Post>>("/api/post/")
+    fun `Assert findAll JSON API is parsed correctly and contains 3 elements`() = runBlocking<Unit> {
+        val posts = client.get().uri("/api/post/").retrieve().body<List<Post>>()
         assertThat(posts).hasSize(3)
     }
 
     @Test
-    fun `Verify findOne JSON API`() {
-        val post = restTemplate.getForObject<Post>("/api/post/reactor-bismuth-is-out")!!
+    fun `Verify findOne JSON API`() = runBlocking<Unit> {
+        val post = client.get().uri("http://localhost:$port/api/post/reactor-bismuth-is-out").retrieve().body<Post>()!!
         assertThat(post.title).isEqualTo("Reactor Bismuth is out")
         assertThat(post.headline).startsWith("It is my great pleasure to")
         assertThat(post.content).startsWith("With the release of")
@@ -54,8 +53,8 @@ class PostJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTempl
     }
 
     @Test
-    fun `Verify findOne JSON API with Markdown converter`() {
-        val post = this.restTemplate.getForObject("/api/post/reactor-bismuth-is-out?converter=markdown", Post::class.java)!!
+    fun `Verify findOne JSON API with Markdown converter`() = runBlocking<Unit> {
+        val post = client.get().uri("http://localhost:$port/api/post/reactor-bismuth-is-out?converter=markdown").retrieve().body<Post>()!!
         assertThat(post.title).startsWith("Reactor Bismuth is out")
         assertThat(post.headline).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>")
         assertThat(post.content).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">")
@@ -64,8 +63,14 @@ class PostJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTempl
     }
 
     @Test
-    fun `Verify findOne JSON API with invalid converter`() {
-        assertThatThrownBy { this.restTemplate.getForEntity("/api/post/reactor-bismuth-is-out?converter=foo", Post::class.java) }.isInstanceOf(HttpServerErrorException::class.java)
+    fun `Verify findOne JSON API with invalid converter`() = runBlocking<Unit> {
+        var ex: Throwable? = null
+        try {
+            client.get().uri("http://localhost:$port/api/post/reactor-bismuth-is-out?converter=foo").retrieve().body<Post>()
+        } catch (e: WebClientResponseException) {
+            ex = e
+        }
+        assertThat(ex).isInstanceOf(WebClientResponseException::class.java)
     }
 
 }

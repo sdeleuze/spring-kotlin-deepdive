@@ -23,6 +23,7 @@ import io.spring.deepdive.model.Post
 import io.spring.deepdive.model.User
 import io.spring.deepdive.repository.PostRepository
 import io.spring.deepdive.repository.UserRepository
+import kotlinx.coroutines.experimental.runBlocking
 
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
@@ -30,7 +31,7 @@ import org.springframework.stereotype.Component
 @Component
 class DatabaseInitializer(private val userRepository: UserRepository, private val postRepository: PostRepository) : CommandLineRunner {
 
-    override fun run(vararg args: String) {
+    override fun run(vararg args: String) = runBlocking<Unit> {
         val brian = User("bclozel", "Brian", "Clozel", "Spring Framework & Spring Boot @pivotal — @LaCordeeLyon coworker")
         val mark = User("MkHeck","Mark", "Heckler", "Spring Developer Advocate @Pivotal. Computer scientist+MBA, inglés y español, @Java_Champions. Pragmatic optimist. #Spring #Reactive #Microservices #IoT #Cloud")
         val arjen = User("poutsma", "Arjen", "Poutsma")

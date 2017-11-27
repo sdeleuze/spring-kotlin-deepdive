@@ -16,33 +16,33 @@
 package io.spring.deepdive
 
 import io.spring.deepdive.model.User
+import kotlinx.coroutines.experimental.runBlocking
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.web.client.getForObject
+import org.springframework.web.coroutine.function.client.body
+import org.springframework.web.coroutine.function.client.DefaultCoroutineWebClient
+import org.springframework.web.reactive.function.client.WebClient
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTemplateBuilder) {
+class UserJsonApiTests(@LocalServerPort val port: Int) {
 
-    // We don't use TestRestTemplate because of Spring Boot issues #10761 and #8062
-    private val restTemplate = builder.rootUri("http://localhost:$port").build()
+    private val client =  DefaultCoroutineWebClient(WebClient.create("http://localhost:$port"))
 
     @Test
-    fun `Assert FindAll JSON API is parsed correctly and contains 11 elements`() {
-        val users = restTemplate.getForObject<List<User>>("/api/user/")
+    fun `Assert FindAll JSON API is parsed correctly and contains 11 elements`() = runBlocking {
+        val users = client.get().uri("/api/user/").retrieve().body<List<User>>()
         assertThat(users).hasSize(11)
     }
 
     @Test
-    fun `Verify findOne JSON API`() {
-        val user = restTemplate.getForObject<User>("/api/user/MkHeck")!!
+    fun `Verify findOne JSON API`() = runBlocking {
+        val user = client.get().uri("/api/user/MkHeck").retrieve().body<User>()!!
         assertThat(user.login).isEqualTo("MkHeck")
         assertThat(user.firstname).isEqualTo("Mark")
         assertThat(user.lastname).isEqualTo("Heckler")
