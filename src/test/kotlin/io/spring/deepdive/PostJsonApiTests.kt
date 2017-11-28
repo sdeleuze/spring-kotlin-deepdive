@@ -23,19 +23,15 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.client.RestTemplateBuilder
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.test.web.client.getForEntity
+import org.springframework.boot.test.web.client.getForObject
+import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.web.client.HttpServerErrorException
-
-import org.springframework.web.client.getForObject
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PostJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTemplateBuilder) {
-
-    // We don't use TestRestTemplate because of Spring Boot issues #10761 and #8062
-    private val restTemplate = builder.rootUri("http://localhost:$port").build()
+class PostJsonApiTests(@Autowired private val restTemplate: TestRestTemplate) {
 
     @Test
     fun `Assert findAll JSON API is parsed correctly and contains 3 elements`() {
@@ -55,7 +51,7 @@ class PostJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTempl
 
     @Test
     fun `Verify findOne JSON API with Markdown converter`() {
-        val post = this.restTemplate.getForObject("/api/post/reactor-bismuth-is-out?converter=markdown", Post::class.java)!!
+        val post = this.restTemplate.getForObject<Post>("/api/post/reactor-bismuth-is-out?converter=markdown")!!
         assertThat(post.title).startsWith("Reactor Bismuth is out")
         assertThat(post.headline).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>")
         assertThat(post.content).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">")
@@ -65,7 +61,9 @@ class PostJsonApiTests(@LocalServerPort port: Int, @Autowired builder: RestTempl
 
     @Test
     fun `Verify findOne JSON API with invalid converter`() {
-        assertThatThrownBy { this.restTemplate.getForEntity("/api/post/reactor-bismuth-is-out?converter=foo", Post::class.java) }.isInstanceOf(HttpServerErrorException::class.java)
+        val entity = restTemplate.getForEntity<String>("/api/post/reactor-bismuth-is-out?converter=foo")
+        assertThat(entity.statusCode).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
+        assertThat(entity.body).contains("Only markdown converter is supported")
     }
 
 }
