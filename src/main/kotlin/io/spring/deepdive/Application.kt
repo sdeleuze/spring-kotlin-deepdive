@@ -1,8 +1,10 @@
 package io.spring.deepdive
 
+import com.mongodb.connection.netty.NettyStreamFactoryFactory
 import com.samskivert.mustache.Mustache.*
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.data.mongodb.repository.config.EnableCoroutineMongoRepositories
@@ -16,6 +18,10 @@ class Application {
     @Bean
     fun mustacheCompiler(loader: TemplateLoader) =
             compiler().escapeHTML(false).withLoader(loader)
+
+    @Bean  // TODO Remove when #10961 is fixed
+    fun clientSettingsBuilderCustomizer() =
+            MongoClientSettingsBuilderCustomizer { it.streamFactoryFactory(NettyStreamFactoryFactory.builder().build()) }
 
 }
 
