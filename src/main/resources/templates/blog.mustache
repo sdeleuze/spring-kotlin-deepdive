@@ -2,19 +2,19 @@
 
 <h1 class="content-subhead">Recent Posts</h1>
 
-<div class="posts">
+<div class="articles">
 
-    {{#posts}}
-        <section class="post">
-            <header class="post-header">
-                <h2 class="post-title"><a href="/{{slug}}">{{title}}</a></h2>
-                <div class="post-meta">By  <strong>{{author.firstname}}</strong>, on <strong>{{addedAt}}</strong></div>
+    {{#articles}}
+        <section class="article">
+            <header class="article-header">
+                <h2 class="article-title"><a href="/article/{{slug}}">{{title}}</a></h2>
+                <div class="article-meta">By  <strong>{{author.firstname}}</strong>, on <strong>{{addedAt}}</strong></div>
             </header>
-            <div class="post-description">
+            <div class="article-description">
                 {{headline}}
             </div>
         </section>
-    {{/posts}}
+    {{/articles}}
 </div>
 
 

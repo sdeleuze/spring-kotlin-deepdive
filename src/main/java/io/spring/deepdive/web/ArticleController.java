@@ -16,8 +16,8 @@
 package io.spring.deepdive.web;
 
 import io.spring.deepdive.MarkdownConverter;
-import io.spring.deepdive.model.Post;
-import io.spring.deepdive.repository.PostRepository;
+import io.spring.deepdive.model.Article;
+import io.spring.deepdive.repository.ArticleRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,37 +26,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/post")
-public class PostController {
+@RequestMapping("/api/article")
+public class ArticleController {
 
-    private final PostRepository postRepository;
+    private final ArticleRepository articleRepository;
 
     private final MarkdownConverter markdownConverter;
 
-    public PostController(PostRepository postRepository, MarkdownConverter markdownConverter) {
-        this.postRepository = postRepository;
+    public ArticleController(ArticleRepository articleRepository, MarkdownConverter markdownConverter) {
+        this.articleRepository = articleRepository;
         this.markdownConverter = markdownConverter;
     }
 
     @GetMapping("/")
-    public Iterable<Post> findAll() {
-        return postRepository.findAll();
+    public Iterable<Article> findAll() {
+        return articleRepository.findAll();
     }
 
     @GetMapping("/{slug}")
-    public Post findOne(@PathVariable String slug, @RequestParam(required = false) String converter) {
-        Post post = postRepository.findOne(slug);
+    public Article findOne(@PathVariable String slug, @RequestParam(required = false) String converter) {
+        Article article = articleRepository.findOne(slug);
         if (converter != null) {
             if (converter.equals("markdown")) {
-                post.setHeadline(markdownConverter.apply(post.getHeadline()));
-                post.setContent(markdownConverter.apply(post.getContent()));
+                article.setHeadline(markdownConverter.apply(article.getHeadline()));
+                article.setContent(markdownConverter.apply(article.getContent()));
 
             }
             else {
                 throw new IllegalArgumentException("Only markdown converter is supported");
             }
         }
-        return post;
+        return article;
     }
 
 }

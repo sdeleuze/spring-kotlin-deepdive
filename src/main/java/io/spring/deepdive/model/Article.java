@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Post {
+public class Article {
 
     @Id
     private String slug;
@@ -24,14 +24,14 @@ public class Post {
     private LocalDateTime addedAt;
 
 
-    public Post() {
+    public Article() {
     }
 
-    public Post(String slug, String title, String headline, String content, User author) {
+    public Article(String slug, String title, String headline, String content, User author) {
         this(slug, title, headline, content, author, LocalDateTime.now());
     }
 
-    public Post(String slug, String title, String headline, String content, User author, LocalDateTime addedAt) {
+    public Article(String slug, String title, String headline, String content, User author, LocalDateTime addedAt) {
         this.slug = slug;
         this.title = title;
         this.headline = headline;
@@ -93,17 +93,17 @@ public class Post {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Post post = (Post) o;
+        Article article = (Article) o;
 
-        if (slug != null ? !slug.equals(post.slug) : post.slug != null) return false;
-        if (title != null ? !title.equals(post.title) : post.title != null) return false;
-        if (headline != null ? !headline.equals(post.headline) : post.headline != null)
+        if (slug != null ? !slug.equals(article.slug) : article.slug != null) return false;
+        if (title != null ? !title.equals(article.title) : article.title != null) return false;
+        if (headline != null ? !headline.equals(article.headline) : article.headline != null)
             return false;
-        if (content != null ? !content.equals(post.content) : post.content != null)
+        if (content != null ? !content.equals(article.content) : article.content != null)
             return false;
-        if (author != null ? !author.equals(post.author) : post.author != null)
+        if (author != null ? !author.equals(article.author) : article.author != null)
             return false;
-        return addedAt != null ? addedAt.equals(post.addedAt) : post.addedAt == null;
+        return addedAt != null ? addedAt.equals(article.addedAt) : article.addedAt == null;
     }
 
     @Override

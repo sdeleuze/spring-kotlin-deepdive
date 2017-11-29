@@ -17,7 +17,7 @@ package io.spring.deepdive.web;
 
 import io.spring.deepdive.MarkdownConverter;
 import io.spring.deepdive.Utils;
-import io.spring.deepdive.model.Post;
+import io.spring.deepdive.model.Article;
 import io.spring.deepdive.model.User;
 
 class PostDto {
@@ -35,13 +35,13 @@ class PostDto {
     private final String addedAt;
 
 
-    public PostDto(Post post, MarkdownConverter markdownConverter) {
-        this.slug = post.getSlug();
-        this.title = post.getTitle();
-        this.headline = markdownConverter.apply(post.getHeadline());
-        this.content = markdownConverter.apply(post.getContent());
-        this.author = post.getAuthor();
-        this.addedAt = Utils.formatToEnglish(post.getAddedAt());
+    public PostDto(Article article, MarkdownConverter markdownConverter) {
+        this.slug = article.getSlug();
+        this.title = article.getTitle();
+        this.headline = markdownConverter.apply(article.getHeadline());
+        this.content = markdownConverter.apply(article.getContent());
+        this.author = article.getAuthor();
+        this.addedAt = Utils.formatToEnglish(article.getAddedAt());
     }
 
     public String getSlug() {

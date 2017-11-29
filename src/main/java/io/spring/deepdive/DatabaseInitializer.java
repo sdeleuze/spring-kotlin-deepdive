@@ -19,9 +19,9 @@ package io.spring.deepdive;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-import io.spring.deepdive.model.Post;
+import io.spring.deepdive.model.Article;
 import io.spring.deepdive.model.User;
-import io.spring.deepdive.repository.PostRepository;
+import io.spring.deepdive.repository.ArticleRepository;
 import io.spring.deepdive.repository.UserRepository;
 
 import org.springframework.boot.CommandLineRunner;
@@ -32,11 +32,11 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
 
-    private final PostRepository postRepository;
+    private final ArticleRepository articleRepository;
 
-    public DatabaseInitializer(UserRepository userRepository, PostRepository postRepository) {
+    public DatabaseInitializer(UserRepository userRepository, ArticleRepository articleRepository) {
         this.userRepository = userRepository;
-        this.postRepository = postRepository;
+        this.articleRepository = articleRepository;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         this.userRepository.save(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta));
 
         String reactorTitle = "Reactor Bismuth is out";
-        Post reactorPost = new Post(
+        Article reactorArticle = new Article(
                 Utils.slugify(reactorTitle),
                 reactorTitle,
                 "It is my great pleasure to announce the GA release of **Reactor Bismuth**, which notably encompasses `reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** \uD83C\uDF89",
@@ -67,7 +67,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         );
 
         String springTitle = "Spring Framework 5.0 goes GA";
-        Post spring5Post = new Post(
+        Article spring5Article = new Article(
                 Utils.slugify(springTitle),
                 springTitle,
                 "Dear Spring community,\n\nIt is my pleasure to announce that, after more than a year of milestones and RCs and almost two years of development overall, Spring Framework 5.0 is finally generally available as 5.0.0.RELEASE from [repo.spring.io](https://repo.spring.io) and Maven Central!",
@@ -76,17 +76,17 @@ public class DatabaseInitializer implements CommandLineRunner {
                 LocalDateTime.of(2017, 9, 28, 11, 30)
         );
 
-        String postTitle = "Introducing Kotlin support in Spring Framework 5.0";
-        Post springKotlinPost = new Post(
-                Utils.slugify(postTitle),
-                postTitle,
+        String springKotlinTitle = "Introducing Kotlin support in Spring Framework 5.0";
+        Article springKotlinArticle = new Article(
+                Utils.slugify(springKotlinTitle),
+                springKotlinTitle,
                 "Following the [Kotlin support on start.spring.io](https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin) we introduced a few months ago, we have continued to work to ensure that Spring and [Kotlin](https://kotlin.link/) play well together.",
                 "One of the key strengths of Kotlin is that it provides a very good [interoperability](https://kotlinlang.org/docs/reference/java-interop.html) with libraries written in Java. But there are ways to go even further and allow writing fully idiomatic Kotlin code when developing your next Spring application. In addition to Spring Framework support for Java 8 that Kotlin applications can leverage like functional web or bean registration APIs, there are additional Kotlin dedicated features that should allow you to reach a new level of productivity.",
                 seb,
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         );
 
-        this.postRepository.save(Arrays.asList(reactorPost, spring5Post, springKotlinPost));
+        this.articleRepository.save(Arrays.asList(reactorArticle, spring5Article, springKotlinArticle));
 
     }
 

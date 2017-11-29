@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import io.spring.deepdive.MarkdownConverter;
-import io.spring.deepdive.model.Post;
-import io.spring.deepdive.repository.PostRepository;
+import io.spring.deepdive.model.Article;
+import io.spring.deepdive.repository.ArticleRepository;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,32 +31,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class HtmlController {
 
-    private final PostRepository postRepository;
+    private final ArticleRepository articleRepository;
 
     private final MarkdownConverter markdownConverter;
 
 
-    public HtmlController(PostRepository postRepository, MarkdownConverter markdownConverter) {
-        this.postRepository = postRepository;
+    public HtmlController(ArticleRepository articleRepository, MarkdownConverter markdownConverter) {
+        this.articleRepository = articleRepository;
         this.markdownConverter = markdownConverter;
     }
 
     @GetMapping("/")
     public String blog(Model model) {
-        Iterable<Post> posts = postRepository.findAll();
+        Iterable<Article> posts = articleRepository.findAll();
         Iterable<PostDto> postDtos = StreamSupport.stream(posts.spliterator(), false).map(post -> new PostDto(post, markdownConverter)).collect(Collectors.toList());
         model.addAttribute("title", "Blog");
-        model.addAttribute("posts", postDtos);
+        model.addAttribute("articles", postDtos);
         return "blog";
     }
 
-    @GetMapping("/{slug}")
+    @GetMapping("/article/{slug}")
     public String post(@PathVariable String slug, Model model) {
-        Post post = postRepository.findOne(slug);
-        Assert.notNull(post, "Wrong post slug provided");
-        PostDto postDto = new PostDto(post, markdownConverter);
-        model.addAttribute("post", postDto);
-        return "post";
+        Article article = articleRepository.findOne(slug);
+        Assert.notNull(article, "Wrong article slug provided");
+        PostDto postDto = new PostDto(article, markdownConverter);
+        model.addAttribute("article", postDto);
+        return "article";
     }
 
 }
