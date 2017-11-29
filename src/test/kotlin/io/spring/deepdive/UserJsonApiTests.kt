@@ -22,8 +22,19 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest.*
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.test.context.junit4.SpringRunner
 
-class UserJsonApiTests : AbstractIntegrationTests() {
+@RunWith(SpringRunner::class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+class UserJsonApiTests {
+
+    @Autowired
+    private lateinit var restTemplate: TestRestTemplate
 
     @Test
     fun `Assert FindAll JSON API is parsed correctly and contains 11 elements`() {

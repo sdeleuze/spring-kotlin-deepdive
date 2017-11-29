@@ -19,16 +19,16 @@ package io.spring.deepdive
 import java.time.LocalDateTime
 import java.util.Arrays
 
-import io.spring.deepdive.model.Post
+import io.spring.deepdive.model.Article
 import io.spring.deepdive.model.User
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
 
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
 @Component
-class DatabaseInitializer(private val userRepository: UserRepository, private val postRepository: PostRepository) : CommandLineRunner {
+class DatabaseInitializer(private val userRepository: UserRepository, private val articleRepository: ArticleRepository) : CommandLineRunner {
 
     override fun run(vararg args: String) {
         val brian = User("bclozel", "Brian", "Clozel", "Spring Framework & Spring Boot @pivotal — @LaCordeeLyon coworker")
@@ -46,11 +46,11 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         userRepository.save(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
 
         val reactorTitle = "Reactor Bismuth is out"
-        val reactorPost = Post(
+        val reactorPost = Article(
                 reactorTitle.slugify(),
                 reactorTitle,
                 """It is my great pleasure to announce the GA release of **Reactor Bismuth**, which notably encompasses
-                    |`reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** \uD83C\uDF89""".trimMargin(),
+                    |`reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** 🎉""".trimMargin(),
                 """With the release of [Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)
                     |now just happening, you can imagine this is a giant step for Project Reactor :)""".trimMargin(),
                 simon,
@@ -58,7 +58,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         )
 
         val springTitle = "Spring Framework 5.0 goes GA"
-        val spring5Post = Post(
+        val spring5Post = Article(
                 springTitle.slugify(),
                 springTitle,
                 """Dear Spring community,
@@ -73,10 +73,10 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                 LocalDateTime.of(2017, 9, 28, 11, 30)
         )
 
-        val postTitle = "Introducing Kotlin support in Spring Framework 5.0"
-        val springKotlinPost = Post(
-                postTitle.slugify(),
-                postTitle,
+        val springKotlinTitle = "Introducing Kotlin support in Spring Framework 5.0"
+        val springKotlinPost = Article(
+                springKotlinTitle.slugify(),
+                springKotlinTitle,
                 """Following the [Kotlin support on start.spring.io](https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin)
                     |we introduced a few months ago, we have continued to work to ensure that Spring and [Kotlin](https://kotlin.link/) play well together.""".trimMargin(),
                 """One of the key strengths of Kotlin is that it provides a very good [interoperability](https://kotlinlang.org/docs/reference/java-interop.html)
@@ -87,6 +87,6 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         )
 
-        postRepository.save(Arrays.asList(reactorPost, spring5Post, springKotlinPost))
+        articleRepository.save(Arrays.asList(reactorPost, spring5Post, springKotlinPost))
     }
 }
