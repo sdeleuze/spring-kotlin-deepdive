@@ -1,18 +1,17 @@
 buildscript {
 	ext {
 		kotlinVersion = "1.1.61"
-		springBootVersion = "2.0.0.BUILD-SNAPSHOT"
+		springBootVersion = "2.0.0.M7"
 	}
 	repositories {
 		mavenCentral()
 		maven { url "https://repo.spring.io/milestone" }
-		maven { url "https://repo.spring.io/snapshot" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-		classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
+		classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.2")
 	}
 }
 
@@ -28,7 +27,6 @@ version = "1.0.0-SNAPSHOT"
 repositories {
 	mavenCentral()
 	maven { url "https://repo.spring.io/milestone" }
-	maven { url "https://repo.spring.io/snapshot" }
 }
 
 compileKotlin {
