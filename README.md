@@ -17,8 +17,8 @@ See [Spring Kotlin support documentation](https://docs.spring.io/spring/docs/cur
 * WebClient
 * Rendering
 * Add Server-Sent Events example
-	* `http POST :8080/api/post/ < post.json`
-	* `http DELETE :8080/api/post/spring-framework-5-0-1-available-now`
+	* `http POST :8080/api/article/ < article.json`
+	* `http DELETE :8080/api/article/spring-framework-5-0-1-available-now`
 
 **[Go to step 4: Kotlin routing DSL](https://github.com/sdeleuze/spring-kotlin-deepdive/tree/step4)**
 

@@ -16,37 +16,37 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
-import io.spring.deepdive.model.Post
-import io.spring.deepdive.repository.PostEventRepository
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.model.Article
+import io.spring.deepdive.repository.ArticleEventRepository
+import io.spring.deepdive.repository.ArticleRepository
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/post")
-class PostController(private val postRepository: PostRepository,
-                     private val postEventRepository: PostEventRepository,
-                     private val markdownConverter: MarkdownConverter) {
+@RequestMapping("/api/article")
+class ArticleController(private val articleRepository: ArticleRepository,
+                        private val articleEventRepository: ArticleEventRepository,
+                        private val markdownConverter: MarkdownConverter) {
 
-    val notifications = postEventRepository.count().flatMapMany { postEventRepository.findWithTailableCursorBy().skip(it) }.share()
+    val notifications = articleEventRepository.count().flatMapMany { articleEventRepository.findWithTailableCursorBy().skip(it) }.share()
 
     @GetMapping("/")
-    fun findAll() = postRepository.findAll()
+    fun findAll() = articleRepository.findAll()
 
     @GetMapping("/{slug}")
     fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
-        "markdown" -> postRepository.findById(slug).map { it.copy(
+        "markdown" -> articleRepository.findById(slug).map { it.copy(
                 headline = markdownConverter.invoke(it.headline),
                 content = markdownConverter.invoke(it.content)) }
-        null -> postRepository.findById(slug)
+        null -> articleRepository.findById(slug)
         else -> throw IllegalArgumentException("Only markdown converter is supported")
     }
 
     @PostMapping("/")
-    fun save(@RequestBody post: Post) = postRepository.save(post)
+    fun save(@RequestBody article: Article) = articleRepository.save(article)
 
     @DeleteMapping("/{slug}")
-    fun delete(@PathVariable slug: String) = postRepository.deleteById(slug)
+    fun delete(@PathVariable slug: String) = articleRepository.deleteById(slug)
 
     @GetMapping("/notifications", produces = arrayOf(MediaType.TEXT_EVENT_STREAM_VALUE))
     fun notifications() = notifications

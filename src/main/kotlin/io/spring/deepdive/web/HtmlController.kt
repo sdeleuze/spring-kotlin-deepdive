@@ -16,7 +16,7 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
 
 import org.springframework.stereotype.Controller
@@ -28,22 +28,25 @@ import org.springframework.web.reactive.result.view.Rendering
 import reactor.core.publisher.toMono
 
 @Controller
-class HtmlController(private val userRepository: UserRepository, private val postRepository: PostRepository, private val markdownConverter: MarkdownConverter) {
+class HtmlController(
+        private val userRepository: UserRepository,
+        private val articleRepository: ArticleRepository,
+        private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
     fun blog() = Rendering.view("blog")
             .model(mapOf(
                     "title" to "Blog",
-                    "posts" to postRepository.findAll().flatMap { it.toDto(userRepository, markdownConverter) } ))
+                    "articles" to articleRepository.findAll().flatMap { it.toDto(userRepository, markdownConverter) } ))
             .build()
 
 
-    @GetMapping("/{slug}")
-    fun post(@PathVariable slug: String, model: Model) = Rendering.view("post")
-            .modelAttribute("post", postRepository
+    @GetMapping("/article/{slug}")
+    fun article(@PathVariable slug: String, model: Model) = Rendering.view("article")
+            .modelAttribute("article", articleRepository
                     .findById(slug)
                     .flatMap { it.toDto(userRepository, markdownConverter) }
-                    .switchIfEmpty(IllegalArgumentException("Wrong post slug provided").toMono()))
+                    .switchIfEmpty(IllegalArgumentException("Wrong article slug provided").toMono()))
             .build()
 
 }

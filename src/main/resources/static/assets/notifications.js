@@ -4,7 +4,7 @@
     });
 //}
 
-let eventSource = new EventSource("/api/post/notifications");
+let eventSource = new EventSource("/api/article/notifications");
 eventSource.addEventListener("message", function(e) {
     let post = JSON.parse(e.data);
     let notification = new Notification(post.title);

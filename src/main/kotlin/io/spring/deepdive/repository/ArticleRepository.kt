@@ -15,10 +15,10 @@
  */
 package io.spring.deepdive.repository
 
-import io.spring.deepdive.model.Post
+import io.spring.deepdive.model.Article
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PostRepository : ReactiveCrudRepository<Post, String>
+interface ArticleRepository : ReactiveCrudRepository<Article, String>

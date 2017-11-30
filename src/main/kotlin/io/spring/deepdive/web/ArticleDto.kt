@@ -17,11 +17,11 @@ package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.formatDate
-import io.spring.deepdive.model.Post
+import io.spring.deepdive.model.Article
 import io.spring.deepdive.model.User
 import io.spring.deepdive.repository.UserRepository
 
-data class PostDto(
+data class ArticleDto(
         val slug: String,
         val title: String,
         val headline: String,
@@ -29,8 +29,8 @@ data class PostDto(
         val author: User,
         val addedAt: String)
 
-fun Post.toDto(userRepository: UserRepository, markdownConverter: MarkdownConverter) = userRepository.findById(author).map {
-    PostDto(
+fun Article.toDto(userRepository: UserRepository, markdownConverter: MarkdownConverter) = userRepository.findById(author).map {
+    ArticleDto(
             slug,
             title,
             markdownConverter.invoke(headline),
