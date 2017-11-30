@@ -13,26 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.spring.deepdive.web
+package io.spring.deepdive.repository
 
-import io.spring.deepdive.MarkdownConverter
-import io.spring.deepdive.formatDate
-import io.spring.deepdive.model.Post
-import io.spring.deepdive.model.User
+import io.spring.deepdive.model.Article
 
-data class PostDto(
-        val slug: String,
-        val title: String,
-        val headline: String,
-        val content: String,
-        val author: User,
-        val addedAt: String)
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
-fun Post.toDto(markdownConverter: MarkdownConverter) = PostDto(
-        slug,
-        title,
-        markdownConverter.invoke(headline),
-        markdownConverter.invoke(content),
-        author,
-        addedAt.formatDate()
-        )
+@Repository
+interface ArticleRepository : CrudRepository<Article, String>

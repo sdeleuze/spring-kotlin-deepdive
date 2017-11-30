@@ -16,7 +16,7 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.ArticleRepository
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -25,21 +25,21 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 
 @Controller
-class HtmlController(private val repository: PostRepository, private val markdownConverter: MarkdownConverter) {
+class HtmlController(private val repository: ArticleRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
     fun blog(model: Model): String {
-        val posts = repository.findAll().map { it.toDto(markdownConverter) }
+        val articles = repository.findAll().map { it.toDto(markdownConverter) }
         model["title"] = "Blog"
-        model["posts"] = posts
+        model["articles"] = articles
         return "blog"
     }
 
-    @GetMapping("/{slug}")
-    fun post(@PathVariable slug: String, model: Model): String {
-        val post = repository.findById(slug).orElseThrow { IllegalArgumentException("Wrong post slug provided") }
-        model["post"] = post.toDto(markdownConverter)
-        return "post"
+    @GetMapping("/article/{slug}")
+    fun article(@PathVariable slug: String, model: Model): String {
+        val post = repository.findById(slug).orElseThrow { IllegalArgumentException("Wrong article slug provided") }
+        model["article"] = post.toDto(markdownConverter)
+        return "article"
     }
 
 }

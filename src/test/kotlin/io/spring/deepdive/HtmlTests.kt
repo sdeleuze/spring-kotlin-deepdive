@@ -24,8 +24,8 @@ class HtmlTests(@Autowired private val restTemplate: TestRestTemplate) {
     }
 
     @Test
-    fun `Assert content on blog post page`() {
-        val body = restTemplate.getForObject<String>("/spring-framework-5-0-goes-ga")
+    fun `Assert content on blog article page`() {
+        val body = restTemplate.getForObject<String>("/article/spring-framework-5-0-goes-ga")
         assertThat(body)
                 .contains("Spring Framework 5.0 goes GA")
                 .contains("Dear Spring community")

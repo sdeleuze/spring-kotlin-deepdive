@@ -16,12 +16,12 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.ArticleRepository
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/post")
-class PostController(private val repository: PostRepository, private val markdownConverter: MarkdownConverter) {
+@RequestMapping("/api/article")
+class ArticleController(private val repository: ArticleRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
     fun findAll() = repository.findAll()
