@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
-data class Post(
+data class Article(
     @Id val slug: String,
     val title: String,
     val headline: String,

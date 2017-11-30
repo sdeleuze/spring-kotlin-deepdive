@@ -15,7 +15,7 @@
  */
 package io.spring.deepdive.repository
 
-import io.spring.deepdive.model.Post
+import io.spring.deepdive.model.Article
 import org.springframework.data.mongodb.repository.Tailable
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
@@ -23,9 +23,9 @@ import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 
 @Repository
-interface PostRepository : ReactiveCrudRepository<Post, String> {
+interface ArticleRepository : ReactiveCrudRepository<Article, String> {
 
     @Tailable
-    fun findWithTailableCursorBy(): Flux<Post>
+    fun findWithTailableCursorBy(): Flux<Article>
 
 }

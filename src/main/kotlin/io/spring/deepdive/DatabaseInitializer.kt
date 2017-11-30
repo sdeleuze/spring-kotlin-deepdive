@@ -19,10 +19,10 @@ package io.spring.deepdive
 import java.time.LocalDateTime
 import java.util.Arrays
 
-import io.spring.deepdive.model.Post
-import io.spring.deepdive.model.PostEvent
+import io.spring.deepdive.model.Article
+import io.spring.deepdive.model.ArticleEvent
 import io.spring.deepdive.model.User
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
 
 import org.springframework.boot.CommandLineRunner
@@ -35,10 +35,10 @@ import org.springframework.data.mongodb.core.MongoOperations
 class DatabaseInitializer(
         private val ops: MongoOperations,
         private val userRepository: UserRepository,
-        private val postRepository: PostRepository) : CommandLineRunner {
+        private val articleRepository: ArticleRepository) : CommandLineRunner {
 
     override fun run(vararg args: String) {
-        ops.createCollection(PostEvent::class.java, CollectionOptions.empty().capped().size(10000))
+        ops.createCollection(ArticleEvent::class.java, CollectionOptions.empty().capped().size(10000))
 
         val brian = User("bclozel", "Brian", "Clozel", "Spring Framework & Spring Boot @pivotal — @LaCordeeLyon coworker")
         val mark = User("MkHeck","Mark", "Heckler", "Spring Developer Advocate @Pivotal. Computer scientist+MBA, inglés y español, @Java_Champions. Pragmatic optimist. #Spring #Reactive #Microservices #IoT #Cloud")
@@ -55,11 +55,11 @@ class DatabaseInitializer(
         userRepository.saveAll(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta)).blockLast()
 
         val reactorTitle = "Reactor Bismuth is out"
-        val reactorPost = Post(
+        val reactorArticle = Article(
                 reactorTitle.slugify(),
                 reactorTitle,
                 """It is my great pleasure to announce the GA release of **Reactor Bismuth**, which notably encompasses
-                    |`reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** \uD83C\uDF89""".trimMargin(),
+                    |`reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** 🎉""".trimMargin(),
                 """With the release of [Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)
                     |now just happening, you can imagine this is a giant step for Project Reactor :)""".trimMargin(),
                 "simonbasle",
@@ -67,7 +67,7 @@ class DatabaseInitializer(
         )
 
         val springTitle = "Spring Framework 5.0 goes GA"
-        val spring5Post = Post(
+        val spring5Article = Article(
                 springTitle.slugify(),
                 springTitle,
                 """Dear Spring community,
@@ -83,7 +83,7 @@ class DatabaseInitializer(
         )
 
         val postTitle = "Introducing Kotlin support in Spring Framework 5.0"
-        val springKotlinPost = Post(
+        val springKotlinArticle = Article(
                 postTitle.slugify(),
                 postTitle,
                 """Following the [Kotlin support on start.spring.io](https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin)
@@ -95,6 +95,6 @@ class DatabaseInitializer(
                 "sdeleuze",
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         )
-        postRepository.saveAll(Arrays.asList(reactorPost, spring5Post, springKotlinPost)).blockLast()
+        articleRepository.saveAll(Arrays.asList(reactorArticle, spring5Article, springKotlinArticle)).blockLast()
     }
 }

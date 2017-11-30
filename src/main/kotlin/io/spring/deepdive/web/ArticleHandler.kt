@@ -16,9 +16,9 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
-import io.spring.deepdive.model.Post
-import io.spring.deepdive.repository.PostEventRepository
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.model.Article
+import io.spring.deepdive.repository.ArticleEventRepository
+import io.spring.deepdive.repository.ArticleRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse.*
@@ -28,32 +28,35 @@ import org.springframework.web.reactive.function.server.bodyToServerSentEvents
 import reactor.core.publisher.toMono
 
 @Component
-class PostHandler(private val postRepository: PostRepository,
-                  private val postEventRepository: PostEventRepository,
-                  private val markdownConverter: MarkdownConverter) {
+class ArticleHandler(private val articleRepository: ArticleRepository,
+                     private val articleEventRepository: ArticleEventRepository,
+                     private val markdownConverter: MarkdownConverter) {
 
-    val notifications = postEventRepository.count().flatMapMany { postEventRepository.findWithTailableCursorBy().skip(it) }.share()
+    val notifications = articleEventRepository
+            .count()
+            .flatMapMany { articleEventRepository.findWithTailableCursorBy().skip(it) }
+            .share()
 
     fun findAll(req: ServerRequest) =
-            ok().body(postRepository.findAll())
+            ok().body(articleRepository.findAll())
 
     fun findOne(req: ServerRequest) =
             ok().body(req.queryParam("converter")
                     .map {
                         if (it == "markdown")
-                            postRepository.findById(req.pathVariable("slug")).map {
+                            articleRepository.findById(req.pathVariable("slug")).map {
                                 it.copy(
                                         headline = markdownConverter.invoke(it.headline),
                                         content = markdownConverter.invoke(it.content))
                             }
                         else IllegalArgumentException("Only markdown converter is supported").toMono() }
-                    .orElse(postRepository.findById(req.pathVariable("slug"))))
+                    .orElse(articleRepository.findById(req.pathVariable("slug"))))
 
     fun save(req: ServerRequest) =
-            ok().body(postRepository.saveAll(req.bodyToMono<Post>()))
+            ok().body(articleRepository.saveAll(req.bodyToMono<Article>()))
 
     fun delete(req: ServerRequest) =
-            ok().body(postRepository.deleteById(req.pathVariable("slug")))
+            ok().body(articleRepository.deleteById(req.pathVariable("slug")))
 
     fun notifications(req: ServerRequest) =
             ok().bodyToServerSentEvents(notifications)

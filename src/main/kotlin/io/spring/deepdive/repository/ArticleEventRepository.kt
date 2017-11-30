@@ -1,15 +1,15 @@
 package io.spring.deepdive.repository
 
-import io.spring.deepdive.model.PostEvent
+import io.spring.deepdive.model.ArticleEvent
 import org.springframework.data.mongodb.repository.Tailable
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 
 @Repository
-interface PostEventRepository : ReactiveCrudRepository<PostEvent, String> {
+interface ArticleEventRepository : ReactiveCrudRepository<ArticleEvent, String> {
 
     @Tailable
-    fun findWithTailableCursorBy(): Flux<PostEvent>
+    fun findWithTailableCursorBy(): Flux<ArticleEvent>
 
 }

@@ -16,8 +16,9 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -26,15 +27,17 @@ import org.springframework.web.reactive.function.server.ServerResponse.*
 import reactor.core.publisher.toMono
 
 @Component
-class HtmlHandler(private val userRepository: UserRepository, private val postRepository: PostRepository, private val markdownConverter: MarkdownConverter) {
+class HtmlHandler(private val userRepository: UserRepository,
+                  private val articleRepository: ArticleRepository,
+                  private val markdownConverter: MarkdownConverter) {
 
     fun blog(req: ServerRequest) = ok()
             .render("blog", mapOf(
                     "title" to "Blog",
-                    "posts" to postRepository.findAll().flatMap { it.toDto(userRepository, markdownConverter) }
+                    "articles" to articleRepository.findAll().flatMap { it.toDto(userRepository, markdownConverter) }
             ))
 
-    fun post(req: ServerRequest) = ok()
-            .render("post", mapOf("post" to postRepository.findById(req.pathVariable("slug")).flatMap { it.toDto(userRepository, markdownConverter) }.switchIfEmpty(IllegalArgumentException("Wrong post slug provided").toMono())))
+    fun article(req: ServerRequest) = ok()
+            .render("article", mapOf("article" to articleRepository.findById(req.pathVariable("slug")).flatMap { it.toDto(userRepository, markdownConverter) }.switchIfEmpty(IllegalArgumentException("Wrong article slug provided").toMono())))
 
 }

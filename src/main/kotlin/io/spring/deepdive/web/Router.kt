@@ -24,7 +24,7 @@ import org.springframework.web.reactive.function.server.router
 @Configuration
 class Router(private val htmlHandler: HtmlHandler,
              private val userHandler: UserHandler,
-             private val postHandler: PostHandler) {
+             private val articleHandler: ArticleHandler) {
 
     @Bean
     fun appRouter() = router {
@@ -33,17 +33,17 @@ class Router(private val htmlHandler: HtmlHandler,
                 GET("/", userHandler::findAll)
                 GET("/{login}", userHandler::findOne)
             }
-            "/api/post".nest {
-                GET("/", postHandler::findAll)
-                GET("/{slug}", postHandler::findOne)
-                POST("/", postHandler::save)
-                DELETE("/{slug}", postHandler::delete)
+            "/api/article".nest {
+                GET("/", articleHandler::findAll)
+                GET("/{slug}", articleHandler::findOne)
+                POST("/", articleHandler::save)
+                DELETE("/{slug}", articleHandler::delete)
             }
         }
-        (GET("/api/post/notifications") and accept(TEXT_EVENT_STREAM)).invoke(postHandler::notifications)
+        (GET("/api/article/notifications") and accept(TEXT_EVENT_STREAM)).invoke(articleHandler::notifications)
         accept(TEXT_HTML).nest {
             GET("/", htmlHandler::blog)
-            (GET("/{slug}") and !GET("/favicon.ico")).invoke(htmlHandler::post)
+            GET("/article/{slug}", htmlHandler::article)
         }
     }
 

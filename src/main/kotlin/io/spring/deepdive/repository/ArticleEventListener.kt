@@ -15,17 +15,17 @@
  */
 package io.spring.deepdive.repository
 
-import io.spring.deepdive.model.Post
-import io.spring.deepdive.model.PostEvent
+import io.spring.deepdive.model.Article
+import io.spring.deepdive.model.ArticleEvent
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener
 import org.springframework.data.mongodb.core.mapping.event.AfterSaveEvent
 import org.springframework.stereotype.Component
 
 @Component
-class PostEventListener(private val postEventRepository: PostEventRepository) : AbstractMongoEventListener<Post>() {
+class ArticleEventListener(private val articleEventRepository: ArticleEventRepository) : AbstractMongoEventListener<Article>() {
 
-    override fun onAfterSave(event: AfterSaveEvent<Post>) {
-        postEventRepository.save(PostEvent(event.source.slug, event.source.title)).block()
+    override fun onAfterSave(event: AfterSaveEvent<Article>) {
+        articleEventRepository.save(ArticleEvent(event.source.slug, event.source.title)).block()
     }
 
 }
