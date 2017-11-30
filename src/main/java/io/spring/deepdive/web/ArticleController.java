@@ -40,7 +40,7 @@ public class ArticleController {
 
     @GetMapping("/")
     public Iterable<Article> findAll() {
-        return articleRepository.findAll();
+        return articleRepository.findAllByOrderByAddedAtDesc();
     }
 
     @GetMapping("/{slug}")

@@ -43,7 +43,7 @@ public class HtmlController {
 
     @GetMapping("/")
     public String blog(Model model) {
-        Iterable<Article> posts = articleRepository.findAll();
+        Iterable<Article> posts = articleRepository.findAllByOrderByAddedAtDesc();
         Iterable<PostDto> postDtos = StreamSupport.stream(posts.spliterator(), false).map(post -> new PostDto(post, markdownConverter)).collect(Collectors.toList());
         model.addAttribute("title", "Blog");
         model.addAttribute("articles", postDtos);

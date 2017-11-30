@@ -22,4 +22,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArticleRepository extends CrudRepository<Article, String> {
+
+    Iterable<Article> findAllByOrderByAddedAtDesc();
 }
