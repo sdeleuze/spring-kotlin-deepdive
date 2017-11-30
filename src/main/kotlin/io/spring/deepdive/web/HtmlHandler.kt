@@ -18,7 +18,7 @@ package io.spring.deepdive.web
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
-import org.springframework.http.MediaType
+import org.springframework.http.HttpHeaders.*
 import org.springframework.stereotype.Component
 
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -32,12 +32,14 @@ class HtmlHandler(private val userRepository: UserRepository,
                   private val markdownConverter: MarkdownConverter) {
 
     fun blog(req: ServerRequest) = ok()
+            .header(CONTENT_TYPE, "text/html;charset=UTF-8") // To be removed when SPR-16247 will be fixed
             .render("blog", mapOf(
                     "title" to "Blog",
                     "articles" to articleRepository.findAll().flatMap { it.toDto(userRepository, markdownConverter) }
             ))
 
     fun article(req: ServerRequest) = ok()
+            .header(CONTENT_TYPE, "text/html;charset=UTF-8") // To be removed when SPR-16247 will be fixed
             .render("article", mapOf("article" to articleRepository.findById(req.pathVariable("slug")).flatMap { it.toDto(userRepository, markdownConverter) }.switchIfEmpty(IllegalArgumentException("Wrong article slug provided").toMono())))
 
 }
