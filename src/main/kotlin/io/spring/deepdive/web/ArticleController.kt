@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*
 class ArticleController(private val repository: ArticleRepository, private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
-    fun findAll() = repository.findAll()
+    fun findAll() = repository.findAllByOrderByAddedAtDesc()
 
     @GetMapping("/{slug}")
     fun findOne(@PathVariable slug: String, @RequestParam(required = false) converter: String?) = when (converter) {

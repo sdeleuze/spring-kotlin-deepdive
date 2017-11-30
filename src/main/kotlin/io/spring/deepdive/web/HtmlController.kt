@@ -29,7 +29,7 @@ class HtmlController(private val repository: ArticleRepository, private val mark
 
     @GetMapping("/")
     fun blog(model: Model): String {
-        val articles = repository.findAll().map { it.toDto(markdownConverter) }
+        val articles = repository.findAllByOrderByAddedAtDesc().map { it.toDto(markdownConverter) }
         model.addAttribute("title", "Blog")
         model.addAttribute("articles", articles)
         return "blog"

@@ -21,4 +21,7 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ArticleRepository : CrudRepository<Article, String>
+interface ArticleRepository : CrudRepository<Article, String> {
+
+    fun findAllByOrderByAddedAtDesc(): Iterable<Article>
+}
