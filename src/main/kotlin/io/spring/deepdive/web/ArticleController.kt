@@ -31,7 +31,7 @@ class ArticleController(private val articleRepository: ArticleRepository,
     val notifications = articleEventRepository.count().flatMapMany { articleEventRepository.findWithTailableCursorBy().skip(it) }.share()
 
     @GetMapping("/")
-    fun findAll() = articleRepository.findAll()
+    fun findAll() = articleRepository.findAllByOrderByAddedAtDesc()
 
     @GetMapping("/{slug}")
     fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
