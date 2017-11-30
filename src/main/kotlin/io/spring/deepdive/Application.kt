@@ -17,7 +17,7 @@ class Application {
     fun mustacheCompiler(loader: TemplateLoader) =
             compiler().escapeHTML(false).withLoader(loader)
 
-    @Bean  // TODO Remove when #10961 is fixed
+    // @Bean
     fun clientSettingsBuilderCustomizer() =
             MongoClientSettingsBuilderCustomizer { it.streamFactoryFactory(NettyStreamFactoryFactory.builder().build()) }
 
