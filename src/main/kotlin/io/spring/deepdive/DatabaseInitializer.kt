@@ -46,7 +46,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         userRepository.save(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
 
         val reactorTitle = "Reactor Bismuth is out"
-        val reactorPost = Article(
+        val reactorArticle = Article(
                 reactorTitle.slugify(),
                 reactorTitle,
                 """It is my great pleasure to announce the GA release of **Reactor Bismuth**, which notably encompasses
@@ -58,7 +58,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         )
 
         val springTitle = "Spring Framework 5.0 goes GA"
-        val spring5Post = Article(
+        val spring5Article = Article(
                 springTitle.slugify(),
                 springTitle,
                 """Dear Spring community,
@@ -74,7 +74,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         )
 
         val springKotlinTitle = "Introducing Kotlin support in Spring Framework 5.0"
-        val springKotlinPost = Article(
+        val springKotlinArticle = Article(
                 springKotlinTitle.slugify(),
                 springKotlinTitle,
                 """Following the [Kotlin support on start.spring.io](https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin)
@@ -87,6 +87,6 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         )
 
-        articleRepository.save(Arrays.asList(reactorPost, spring5Post, springKotlinPost))
+        articleRepository.save(Arrays.asList(reactorArticle, spring5Article, springKotlinArticle))
     }
 }

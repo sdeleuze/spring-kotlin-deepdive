@@ -34,35 +34,35 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class PostJsonApiTests {
+class ArticleJsonApiTests {
 
     @Autowired
     private lateinit var restTemplate: TestRestTemplate
 
     @Test
     fun `Assert findAll JSON API is parsed correctly and contains 3 elements`() {
-        val posts = restTemplate.exchange("/api/article/", HttpMethod.GET, null, object: ParameterizedTypeReference<List<Article>>() {}).body
-        assertThat(posts).hasSize(3)
+        val articles = restTemplate.exchange("/api/article/", HttpMethod.GET, null, object: ParameterizedTypeReference<List<Article>>() {}).body
+        assertThat(articles).hasSize(3)
     }
 
     @Test
     fun `Verify findOne JSON API`() {
-        val post = restTemplate.getForObject("/api/article/reactor-bismuth-is-out", Article::class.java)
-        assertThat(post.title).isEqualTo("Reactor Bismuth is out")
-        assertThat(post.headline).startsWith("It is my great pleasure to")
-        assertThat(post.content).startsWith("With the release of")
-        assertThat(post.addedAt).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 0))
-        assertThat(post.author.firstname).isEqualTo("Simon")
+        val article = restTemplate.getForObject("/api/article/reactor-bismuth-is-out", Article::class.java)
+        assertThat(article.title).isEqualTo("Reactor Bismuth is out")
+        assertThat(article.headline).startsWith("It is my great pleasure to")
+        assertThat(article.content).startsWith("With the release of")
+        assertThat(article.addedAt).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 0))
+        assertThat(article.author.firstname).isEqualTo("Simon")
     }
 
     @Test
     fun `Verify findOne JSON API with Markdown converter`() {
-        val post = restTemplate.getForObject("/api/article/reactor-bismuth-is-out?converter=markdown", Article::class.java)!!
-        assertThat(post.title).startsWith("Reactor Bismuth is out")
-        assertThat(post.headline).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>")
-        assertThat(post.content).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">")
-        assertThat(post.addedAt).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 0))
-        assertThat(post.author.firstname).isEqualTo("Simon")
+        val article = restTemplate.getForObject("/api/article/reactor-bismuth-is-out?converter=markdown", Article::class.java)!!
+        assertThat(article.title).startsWith("Reactor Bismuth is out")
+        assertThat(article.headline).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>")
+        assertThat(article.content).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">")
+        assertThat(article.addedAt).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 0))
+        assertThat(article.author.firstname).isEqualTo("Simon")
     }
 
     @Test
