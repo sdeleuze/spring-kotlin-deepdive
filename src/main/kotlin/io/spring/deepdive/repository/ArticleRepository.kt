@@ -25,6 +25,8 @@ import reactor.core.publisher.Flux
 @Repository
 interface ArticleRepository : ReactiveCrudRepository<Article, String> {
 
+    fun findAllByOrderByAddedAtDesc(): Flux<Article>
+
     @Tailable
     fun findWithTailableCursorBy(): Flux<Article>
 

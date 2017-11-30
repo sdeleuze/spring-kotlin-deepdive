@@ -38,7 +38,7 @@ class ArticleHandler(private val articleRepository: ArticleRepository,
             .share()
 
     fun findAll(req: ServerRequest) =
-            ok().body(articleRepository.findAll())
+            ok().body(articleRepository.findAllByOrderByAddedAtDesc())
 
     fun findOne(req: ServerRequest) =
             ok().body(req.queryParam("converter")

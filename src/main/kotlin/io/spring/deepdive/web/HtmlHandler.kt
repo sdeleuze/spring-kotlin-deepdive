@@ -35,7 +35,7 @@ class HtmlHandler(private val userRepository: UserRepository,
             .header(CONTENT_TYPE, "text/html;charset=UTF-8") // To be removed when SPR-16247 will be fixed
             .render("blog", mapOf(
                     "title" to "Blog",
-                    "articles" to articleRepository.findAll().flatMap { it.toDto(userRepository, markdownConverter) }
+                    "articles" to articleRepository.findAllByOrderByAddedAtDesc().flatMap { it.toDto(userRepository, markdownConverter) }
             ))
 
     fun article(req: ServerRequest) = ok()
