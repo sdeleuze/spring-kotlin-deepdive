@@ -19,9 +19,9 @@ package io.spring.deepdive
 import java.time.LocalDateTime
 import java.util.Arrays
 
-import io.spring.deepdive.model.Post
+import io.spring.deepdive.model.Article
 import io.spring.deepdive.model.User
-import io.spring.deepdive.repository.PostRepository
+import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
 import kotlinx.coroutines.experimental.runBlocking
 
@@ -29,7 +29,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
 @Component
-class DatabaseInitializer(private val userRepository: UserRepository, private val postRepository: PostRepository) : CommandLineRunner {
+class DatabaseInitializer(private val userRepository: UserRepository, private val articleRepository: ArticleRepository) : CommandLineRunner {
 
     override fun run(vararg args: String) = runBlocking<Unit> {
         val brian = User("bclozel", "Brian", "Clozel", "Spring Framework & Spring Boot @pivotal — @LaCordeeLyon coworker")
@@ -47,11 +47,11 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         userRepository.saveAll(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
 
         val reactorTitle = "Reactor Bismuth is out"
-        val reactorPost = Post(
+        val reactorArticle = Article(
                 reactorTitle.slugify(),
                 reactorTitle,
                 """It is my great pleasure to announce the GA release of **Reactor Bismuth**, which notably encompasses
-                    |`reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** \uD83C\uDF89""".trimMargin(),
+                    |`reactor-core` **3.1.0.RELEASE** and `reactor-netty` **0.7.0.RELEASE** 🎉""".trimMargin(),
                 """With the release of [Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)
                     |now just happening, you can imagine this is a giant step for Project Reactor :)""".trimMargin(),
                 simon,
@@ -59,7 +59,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         )
 
         val springTitle = "Spring Framework 5.0 goes GA"
-        val spring5Post = Post(
+        val spring5Article = Article(
                 springTitle.slugify(),
                 springTitle,
                 """Dear Spring community,
@@ -75,7 +75,7 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         )
 
         val postTitle = "Introducing Kotlin support in Spring Framework 5.0"
-        val springKotlinPost = Post(
+        val springKotlinArticle = Article(
                 postTitle.slugify(),
                 postTitle,
                 """Following the [Kotlin support on start.spring.io](https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin)
@@ -88,6 +88,6 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         )
 
-        postRepository.saveAll(Arrays.asList(reactorPost, spring5Post, springKotlinPost))
+        articleRepository.saveAll(Arrays.asList(reactorArticle, spring5Article, springKotlinArticle))
     }
 }
