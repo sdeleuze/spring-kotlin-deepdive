@@ -68,7 +68,6 @@ dependencies {
 	compile("org.springframework.kotlin:spring-data-mongodb-kotlin-coroutine:0.3.1")
 	compile("org.springframework.kotlin:spring-boot-autoconfigure-kotlin-coroutine:0.3.1")
 
-	runtime("org.springframework.boot:spring-boot-devtools")
 	testCompile("org.springframework.boot:spring-boot-starter-test") {
 		exclude module: "junit"
 	}
