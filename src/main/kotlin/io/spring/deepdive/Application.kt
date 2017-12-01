@@ -17,7 +17,7 @@ class Application {
     fun mustacheCompiler(loader: TemplateLoader) =
             compiler().escapeHTML(false).withLoader(loader)
 
-    // @Bean
+    @Bean  // Remove with Boot 2 RC1, see gh-10961
     fun clientSettingsBuilderCustomizer() =
             MongoClientSettingsBuilderCustomizer { it.streamFactoryFactory(NettyStreamFactoryFactory.builder().build()) }
 

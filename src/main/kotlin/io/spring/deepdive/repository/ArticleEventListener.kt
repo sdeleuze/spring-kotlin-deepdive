@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component
 class ArticleEventListener(private val articleEventRepository: ArticleEventRepository) : AbstractMongoEventListener<Article>() {
 
     override fun onAfterSave(event: AfterSaveEvent<Article>) {
-        articleEventRepository.save(ArticleEvent(event.source.slug, event.source.title)).block()
+        articleEventRepository.save(ArticleEvent(event.source.slug, event.source.title)).subscribe()
     }
 
 }
