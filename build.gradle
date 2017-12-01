@@ -53,7 +53,6 @@ dependencies {
 	compile("com.atlassian.commonmark:commonmark:0.10.0")
 	compile("com.atlassian.commonmark:commonmark-ext-autolink:0.10.0")
 	compile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
-	runtime("org.springframework.boot:spring-boot-devtools")
 	testCompile("org.springframework.boot:spring-boot-starter-test") {
 		exclude module: "junit"
 	}
