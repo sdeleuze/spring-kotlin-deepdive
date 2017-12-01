@@ -25,7 +25,7 @@ class ArticleController(private val repository: ArticleRepository,
                         private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
-    suspend fun findAll() = repository.findAll()
+    suspend fun findAll() = repository.findAllByOrderByAddedAtDesc()
 
     @GetMapping("/{slug}")
     suspend fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {

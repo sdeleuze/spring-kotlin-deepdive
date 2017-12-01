@@ -30,7 +30,7 @@ class HtmlController(private val repository: ArticleRepository,
 
     @GetMapping("/")
     suspend fun blog(model: Model): String {
-        val posts = repository.findAll().map { it.toDto(markdownConverter) }
+        val posts = repository.findAllByOrderByAddedAtDesc().map { it.toDto(markdownConverter) }
         model["title"] = "Blog"
         model["articles"] = posts
         return "blog"

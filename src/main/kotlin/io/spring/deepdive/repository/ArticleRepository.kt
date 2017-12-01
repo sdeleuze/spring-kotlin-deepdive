@@ -21,4 +21,7 @@ import org.springframework.data.mongodb.repository.CoroutineMongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ArticleRepository : CoroutineMongoRepository<Article, String>
+interface ArticleRepository : CoroutineMongoRepository<Article, String> {
+
+    suspend fun findAllByOrderByAddedAtDesc(): List<Article>
+}

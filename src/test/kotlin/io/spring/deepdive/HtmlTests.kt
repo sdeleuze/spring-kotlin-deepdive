@@ -30,8 +30,8 @@ class HtmlTests(@LocalServerPort val port: Int) {
     }
 
     @Test
-    fun `Assert content on blog post page`() = runBlocking<Unit> {
-        val body = client.get().uri("/spring-framework-5-0-goes-ga").retrieve().body<String>()
+    fun `Assert content on blog article page`() = runBlocking<Unit> {
+        val body = client.get().uri("/article/spring-framework-5-0-goes-ga").retrieve().body<String>()
         assertThat(body)
                 .contains("Spring Framework 5.0 goes GA")
                 .contains("Dear Spring community")
