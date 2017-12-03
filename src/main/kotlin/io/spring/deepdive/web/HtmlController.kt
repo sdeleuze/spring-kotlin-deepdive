@@ -17,6 +17,7 @@ package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.repository.ArticleRepository
+import io.spring.deepdive.repository.UserRepository
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -25,12 +26,13 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 
 @Controller
-class HtmlController(private val repository: ArticleRepository,
+class HtmlController(private val articleRepository: ArticleRepository,
+                     private val userRepository: UserRepository,
                      private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
     suspend fun blog(model: Model): String {
-        val posts = repository.findAllByOrderByAddedAtDesc().map { it.toDto(markdownConverter) }
+        val posts = articleRepository.findAllByOrderByAddedAtDesc().map { it.toDto(userRepository, markdownConverter) }
         model["title"] = "Blog"
         model["articles"] = posts
         return "blog"
@@ -38,8 +40,8 @@ class HtmlController(private val repository: ArticleRepository,
 
     @GetMapping("/article/{slug}")
     suspend fun article(@PathVariable slug: String, model: Model): String {
-        val post = repository.findById(slug)!!
-        model["article"] = post.toDto(markdownConverter)
+        val post = articleRepository.findById(slug)!!
+        model["article"] = post.toDto(userRepository, markdownConverter)
         return "article"
     }
 

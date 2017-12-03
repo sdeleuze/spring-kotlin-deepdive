@@ -19,6 +19,7 @@ import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.formatDate
 import io.spring.deepdive.model.Article
 import io.spring.deepdive.model.User
+import io.spring.deepdive.repository.UserRepository
 
 data class ArticleDto(
         val slug: String,
@@ -28,11 +29,14 @@ data class ArticleDto(
         val author: User,
         val addedAt: String)
 
-fun Article.toDto(markdownConverter: MarkdownConverter) = ArticleDto(
-        slug,
-        title,
-        markdownConverter.invoke(headline),
-        markdownConverter.invoke(content),
-        author,
-        addedAt.formatDate()
-        )
+suspend fun Article.toDto(userRepository: UserRepository, markdownConverter: MarkdownConverter) =
+        userRepository.findById(author).let { u ->
+            ArticleDto(
+                    slug,
+                    title,
+                    markdownConverter.invoke(headline),
+                    markdownConverter.invoke(content),
+                    u!!,
+                    addedAt.formatDate()
+            )
+        }

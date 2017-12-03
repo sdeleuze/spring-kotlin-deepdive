@@ -1,0 +1,8 @@
+{
+  "slug": "spring-framework-5-0-1-available-now",
+  "title": "Spring Framework 5.0.1 available now",
+  "headline": "Dear Spring community,\n\nIt is my pleasure to announce that Spring Framework [5.0.1](https://jira.spring.io/jira/secure/ReleaseNote.jspa?projectId=10000&version=16318) [is available now](http://projects.spring.io/spring-framework), as the first maintenance release in our Spring Framework 5.0 line.",
+  "content": "In addition to addressing various user-reported bugs, we've applied minor refactorings to clean up unintended leftovers from the 5.0 GA release, e.g. for the reactive codec configurers.\n\nThis release upgrades Reactor to Bismuth SR3, based on Reactor Core 3.1.1, picking up essential fixes in Reactor Netty. Furthermore, AspectJ 1.8.12 brings some welcome performance improvements to Spring AOP's pointcut expression evaluation at runtime.\n\nLast but not least, we've restructured our documentation as a starting point for further refinements in the 5.0.x line, including a revised [documentation landing page](https://docs.spring.io/spring/docs/current/spring-framework-reference/).\n\nAll in all, 5.0.1 is an immediate update for every Spring Framework 5.0 user. Next up is Spring Framework 5.0.2 in mid November, coming just in time for the Spring Boot 2.0 RC1 release!\n\nCheers,\nJuergen",
+  "author": "springjuergen",
+  "addedAt": [2017, 10, 24, 18, 55]
+}

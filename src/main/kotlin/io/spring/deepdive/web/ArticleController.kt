@@ -16,24 +16,37 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
+import io.spring.deepdive.model.Article
+import io.spring.deepdive.repository.ArticleEventRepository
 import io.spring.deepdive.repository.ArticleRepository
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/article")
-class ArticleController(private val repository: ArticleRepository,
+class ArticleController(private val articleRepository: ArticleRepository,
+                        private val articleEventRepository: ArticleEventRepository,
                         private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
-    suspend fun findAll() = repository.findAllByOrderByAddedAtDesc()
+    suspend fun findAll() = articleRepository.findAllByOrderByAddedAtDesc()
 
     @GetMapping("/{slug}")
     suspend fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
-        "markdown" -> repository.findById(slug)!!.let { it.copy(
+        "markdown" -> articleRepository.findById(slug)!!.let { it.copy(
                 headline = markdownConverter.invoke(it.headline),
                 content = markdownConverter.invoke(it.content)) }
-        null -> repository.findById(slug)
+        null -> articleRepository.findById(slug)
         else -> throw IllegalArgumentException("Only markdown converter is supported")
     }
+
+    @PostMapping("/")
+    suspend fun save(@RequestBody article: Article) = articleRepository.save(article)
+
+    @DeleteMapping("/{slug}")
+    suspend fun delete(@PathVariable slug: String) = articleRepository.deleteById(slug)
+
+    @GetMapping("/notifications", produces = arrayOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+    suspend fun notifications() = articleEventRepository.findWithTailableCursorBy()
 
 }

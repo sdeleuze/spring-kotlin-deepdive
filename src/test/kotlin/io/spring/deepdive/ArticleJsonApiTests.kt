@@ -50,7 +50,7 @@ class ArticleJsonApiTests(@LocalServerPort val port: Int) {
         assertThat(article.headline).startsWith("It is my great pleasure to")
         assertThat(article.content).startsWith("With the release of")
         assertThat(article.addedAt).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 0))
-        assertThat(article.author.firstname).isEqualTo("Simon")
+        assertThat(article.author).isEqualTo("simonbasle")
     }
 
     @Test
@@ -60,7 +60,7 @@ class ArticleJsonApiTests(@LocalServerPort val port: Int) {
         assertThat(article.headline).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>")
         assertThat(article.content).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">")
         assertThat(article.addedAt).isEqualTo(LocalDateTime.of(2017, 9, 28, 12, 0))
-        assertThat(article.author.firstname).isEqualTo("Simon")
+        assertThat(article.author).isEqualTo("simonbasle")
     }
 
     @Test
