@@ -37,7 +37,7 @@ class HtmlController(
     fun blog() = Rendering.view("blog")
             .model(mapOf(
                     "title" to "Blog",
-                    "articles" to articleRepository.findAllByOrderByAddedAtDesc().flatMap { it.toDto(userRepository, markdownConverter) } ))
+                    "articles" to articleRepository.findAllByOrderByAddedAtDesc().concatMap { it.toDto(userRepository, markdownConverter) } ))
             .build()
 
 
