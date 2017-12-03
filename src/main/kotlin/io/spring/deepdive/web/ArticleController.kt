@@ -47,6 +47,7 @@ class ArticleController(private val articleRepository: ArticleRepository,
     suspend fun delete(@PathVariable slug: String) = articleRepository.deleteById(slug)
 
     @GetMapping("/notifications", produces = arrayOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+    // TODO Maybe convert to a BroadcastChannel and consume the first 3 initial elements to skip them like in the Reactive version
     suspend fun notifications() = articleEventRepository.findWithTailableCursorBy()
 
 }
