@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = "1.1.61"
+		kotlinVersion = "1.2.0"
 		springBootVersion = "2.0.0.M7"
 	}
 	repositories {
@@ -62,8 +62,8 @@ dependencies {
 	compile("com.atlassian.commonmark:commonmark:0.10.0")
 	compile("com.atlassian.commonmark:commonmark-ext-autolink:0.10.0")
 	compile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.19.3")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:0.19.3")
+	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20")
+	compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:0.20")
 	compile("org.springframework.kotlin:spring-webflux-kotlin-coroutine:0.3.1")
 	compile("org.springframework.kotlin:spring-data-mongodb-kotlin-coroutine:0.3.1")
 	compile("org.springframework.kotlin:spring-boot-autoconfigure-kotlin-coroutine:0.3.1")

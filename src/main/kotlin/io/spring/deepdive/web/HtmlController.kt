@@ -18,6 +18,7 @@ package io.spring.deepdive.web
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
+import kotlinx.coroutines.experimental.channels.map
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

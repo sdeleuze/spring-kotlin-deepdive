@@ -24,5 +24,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ArticleRepository : CoroutineMongoRepository<Article, String> {
 
-    suspend fun findAllByOrderByAddedAtDesc(): List<Article>
+    suspend fun findAllByOrderByAddedAtDesc(): ReceiveChannel<Article>
 }

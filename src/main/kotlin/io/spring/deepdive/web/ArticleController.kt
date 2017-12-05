@@ -19,6 +19,9 @@ import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.model.Article
 import io.spring.deepdive.repository.ArticleEventRepository
 import io.spring.deepdive.repository.ArticleRepository
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.channels.drop
+import kotlinx.coroutines.experimental.channels.flatMap
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.*
 class ArticleController(private val articleRepository: ArticleRepository,
                         private val articleEventRepository: ArticleEventRepository,
                         private val markdownConverter: MarkdownConverter) {
+
 
     @GetMapping("/")
     suspend fun findAll() = articleRepository.findAllByOrderByAddedAtDesc()
@@ -48,6 +52,6 @@ class ArticleController(private val articleRepository: ArticleRepository,
 
     @GetMapping("/notifications", produces = arrayOf(MediaType.TEXT_EVENT_STREAM_VALUE))
     // TODO Maybe convert to a BroadcastChannel and consume the first 3 initial elements to skip them like in the Reactive version
-    suspend fun notifications() = articleEventRepository.findWithTailableCursorBy()
+    suspend fun notifications() = articleEventRepository.findWithTailableCursorBy().drop(3)
 
 }
