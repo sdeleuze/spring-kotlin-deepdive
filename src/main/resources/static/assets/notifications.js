@@ -9,6 +9,6 @@ eventSource.addEventListener("message", function(e) {
     let post = JSON.parse(e.data);
     let notification = new Notification(post.title);
     notification.onclick = function() {
-        window.location.href = "/" + post.slug;
+        window.location.href = "/article/" + post.slug;
     };
 });
