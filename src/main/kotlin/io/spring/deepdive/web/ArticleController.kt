@@ -48,7 +48,7 @@ class ArticleController(private val articleRepository: ArticleRepository,
     @DeleteMapping("/{slug}")
     fun delete(@PathVariable slug: String) = articleRepository.deleteById(slug)
 
-    @GetMapping("/notifications", produces = arrayOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+    @GetMapping("/notifications", produces = [(MediaType.TEXT_EVENT_STREAM_VALUE)])
     fun notifications() = notifications
 
 }
