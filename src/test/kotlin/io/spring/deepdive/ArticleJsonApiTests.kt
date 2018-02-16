@@ -45,7 +45,7 @@ class ArticleJsonApiTests(@LocalServerPort val port: Int) {
 
     @Test
     fun `Verify findOne JSON API`() = runBlocking<Unit> {
-        val article = client.get().uri("http://localhost:$port/api/article/reactor-bismuth-is-out").retrieve().body<Article>()!!
+        val article = client.get().uri("/api/article/reactor-bismuth-is-out").retrieve().body<Article>()!!
         assertThat(article.title).isEqualTo("Reactor Bismuth is out")
         assertThat(article.headline).startsWith("It is my great pleasure to")
         assertThat(article.content).startsWith("With the release of")
@@ -55,7 +55,7 @@ class ArticleJsonApiTests(@LocalServerPort val port: Int) {
 
     @Test
     fun `Verify findOne JSON API with Markdown converter`() = runBlocking<Unit> {
-        val article = client.get().uri("http://localhost:$port/api/article/reactor-bismuth-is-out?converter=markdown").retrieve().body<Article>()!!
+        val article = client.get().uri("/api/article/reactor-bismuth-is-out?converter=markdown").retrieve().body<Article>()!!
         assertThat(article.title).startsWith("Reactor Bismuth is out")
         assertThat(article.headline).doesNotContain("**3.1.0.RELEASE**").contains("<strong>3.1.0.RELEASE</strong>")
         assertThat(article.content).doesNotContain("[Spring Framework 5.0](https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga)").contains("<a href=\"https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga\">")
@@ -67,7 +67,7 @@ class ArticleJsonApiTests(@LocalServerPort val port: Int) {
     fun `Verify findOne JSON API with invalid converter`() = runBlocking<Unit> {
         var ex: Throwable? = null
         try {
-            client.get().uri("http://localhost:$port/api/article/reactor-bismuth-is-out?converter=foo").retrieve().body<Article>()
+            client.get().uri("/api/article/reactor-bismuth-is-out?converter=foo").retrieve().body<Article>()
         } catch (e: WebClientResponseException) {
             ex = e
         }
