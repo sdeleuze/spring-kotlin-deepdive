@@ -17,8 +17,11 @@ package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
 import io.spring.deepdive.model.Article
+import io.spring.deepdive.model.ArticleEvent
 import io.spring.deepdive.repository.ArticleEventRepository
 import io.spring.deepdive.repository.ArticleRepository
+import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.experimental.channels.drop
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
@@ -47,7 +50,10 @@ class ArticleController(private val articleRepository: ArticleRepository,
     suspend fun delete(@PathVariable slug: String) = articleRepository.deleteById(slug)
 
     @GetMapping("/notifications", produces = [(MediaType.TEXT_EVENT_STREAM_VALUE)])
-    // TODO Maybe convert to a BroadcastChannel and consume the first 3 initial elements to skip them like in the Reactive version
-    suspend fun notifications() = articleEventRepository.findWithTailableCursorBy()
+    // TODO Use a shared BroadcastChannel
+    suspend fun notifications(): ReceiveChannel<ArticleEvent> {
+        val count = articleEventRepository.count().toInt()
+        return articleEventRepository.findWithTailableCursorBy().drop(count)
+    }
 
 }
