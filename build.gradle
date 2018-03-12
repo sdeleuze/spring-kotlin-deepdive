@@ -58,11 +58,11 @@ dependencies {
 	compile("com.atlassian.commonmark:commonmark:0.10.0")
 	compile("com.atlassian.commonmark:commonmark-ext-autolink:0.10.0")
 	compile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2")
-	compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:0.22.2")
-	compile("org.springframework.kotlin:spring-webflux-kotlin-coroutine:0.3.2")
-	compile("org.springframework.kotlin:spring-data-mongodb-kotlin-coroutine:0.3.2")
-	compile("org.springframework.kotlin:spring-boot-autoconfigure-kotlin-coroutine:0.3.2")
+	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5")
+	compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:0.22.5")
+	compile("org.springframework.kotlin:spring-webflux-kotlin-coroutine:0.3.3")
+	compile("org.springframework.kotlin:spring-data-mongodb-kotlin-coroutine:0.3.3")
+	compile("org.springframework.kotlin:spring-boot-autoconfigure-kotlin-coroutine:0.3.3")
 
 	testCompile("org.springframework.boot:spring-boot-starter-test") {
 		exclude module: "junit"
