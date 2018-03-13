@@ -50,7 +50,7 @@ class ArticleController(private val articleRepository: ArticleRepository,
     suspend fun delete(@PathVariable slug: String) = articleRepository.deleteById(slug)
 
     @GetMapping("/notifications", produces = [(MediaType.TEXT_EVENT_STREAM_VALUE)])
-    // TODO Use a shared BroadcastChannel
+    // TODO Use a shared BroadcastChannel, see https://github.com/Kotlin/kotlinx.coroutines/issues/280
     suspend fun notifications(): ReceiveChannel<ArticleEvent> {
         val count = articleEventRepository.count().toInt()
         return articleEventRepository.findWithTailableCursorBy().drop(count)
